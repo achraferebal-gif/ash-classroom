@@ -1,1 +1,1437 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emoji Word Challenge | Ash's Classroom</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@twemoji/api@17.0.3/dist/twemoji.min.js"
+    integrity="sha384-Y5xukbGJwykbHHkTbLJykYLcBPFxrwipTbEh0puxhkz9CZ90raTPGe2Ks4vCxsYU"
+    crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --bg: #f5f7ff;
+      --panel: #ffffff;
+      --panel-soft: #eef2ff;
+      --text: #182033;
+      --muted: #65708a;
+      --border: #d9e0f2;
+      --primary: #5b63f2;
+      --primary-dark: #444bd4;
+      --success: #178a56;
+      --danger: #c53d4a;
+      --warning: #d88314;
+      --shadow: 0 16px 40px rgba(48, 58, 120, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(91, 99, 242, 0.13), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(119, 211, 184, 0.18), transparent 30%),
+        var(--bg);
+    }
+
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+
+    .page {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 24px 0 40px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .title-wrap { display: flex; align-items: center; gap: 14px; }
+
+    .logo {
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: var(--primary);
+      color: white;
+      font-size: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      line-height: 1.05;
+    }
+
+    .subtitle { margin: 7px 0 0; color: var(--muted); }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 11px 16px;
+      background: white;
+      color: var(--text);
+      font-weight: 750;
+      transition: .18s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); border-color: #b7c1dd; }
+    .btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-success { background: var(--success); color: white; border-color: var(--success); }
+    .btn-warning { background: #fff7e7; color: #9a5a00; border-color: #f0c77d; }
+    .btn-danger { background: #fff0f1; color: var(--danger); border-color: #f0bec4; }
+
+    .home-link {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .mode-screen {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 30px;
+    }
+
+    .mode-heading {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .mode-heading h2 { margin: 0 0 8px; font-size: 2rem; }
+    .mode-heading p { margin: 0; color: var(--muted); }
+
+    .mode-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .mode-card {
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      background: linear-gradient(180deg, #fff, #f8f9ff);
+      padding: 24px 16px;
+      text-align: center;
+      transition: .2s ease;
+    }
+
+    .mode-card:hover {
+      transform: translateY(-4px);
+      border-color: #aeb6ff;
+      box-shadow: 0 12px 30px rgba(66, 76, 160, .13);
+    }
+
+    .mode-icon { font-size: 3rem; margin-bottom: 12px; }
+    .mode-card h3 { margin: 0 0 8px; font-size: 1.15rem; }
+    .mode-card p { margin: 0 0 16px; color: var(--muted); font-size: .92rem; }
+    .mode-count { display: inline-block; background: var(--panel-soft); color: var(--primary-dark); padding: 6px 10px; border-radius: 999px; font-weight: 800; }
+
+    .game-screen { display: none; }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(55, 66, 130, .07);
+    }
+
+    .stat-label { color: var(--muted); font-size: .78rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+    .stat-value { font-size: 1.45rem; font-weight: 900; margin-top: 4px; }
+    .mode-value { font-size: 1rem; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 285px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .game-panel { padding: 20px; }
+
+    .challenge {
+      background: linear-gradient(180deg, #f9faff, #f2f5ff);
+      border: 1px solid #dce2ff;
+      border-radius: 18px;
+      padding: 22px;
+      text-align: center;
+    }
+
+    .category-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #e9edff;
+      color: #464dc5;
+      border: 1px solid #cfd5ff;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: .82rem;
+      font-weight: 850;
+      text-transform: capitalize;
+      margin-bottom: 16px;
+    }
+
+    .emoji-display {
+      min-height: 190px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 18px;
+      font-size: 5rem;
+      font-weight: 900;
+      line-height: 1.1;
+      overflow: hidden;
+    }
+
+    .emoji-display img.emoji {
+      width: 1em;
+      height: 1em;
+      margin: 0 .04em;
+      vertical-align: -0.08em;
+      filter: drop-shadow(0 5px 8px rgba(40, 45, 90, .12));
+    }
+
+    .answer-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .answer-row input {
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      outline: none;
+      font-size: 1.08rem;
+    }
+
+    .answer-row input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(91, 99, 242, .1); }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .feedback {
+      min-height: 38px;
+      margin-top: 16px;
+      font-size: 1.16rem;
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .info-box {
+      margin-top: 12px;
+      border-radius: 14px;
+      padding: 13px 15px;
+      display: none;
+      line-height: 1.5;
+      text-align: left;
+    }
+
+    .hint-box { background: #fff7e7; border: 1px solid #f2cf8e; color: #8a5705; }
+    .answer-box { background: #eef9f4; border: 1px solid #a9dcc4; color: #116b43; }
+    .explanation { margin-top: 7px; color: #3c5e50; }
+
+    .sidebar { display: grid; gap: 14px; }
+    .side-panel { padding: 16px; }
+    .side-panel h2 { font-size: 1rem; margin: 0 0 12px; }
+
+    .score-team {
+      border: 1px solid var(--border);
+      background: #fafbff;
+      border-radius: 15px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .score-team:last-child { margin-bottom: 0; }
+    .team-name { font-weight: 900; }
+    .big-score { font-size: 1.45rem; font-weight: 950; margin: 5px 0 9px; }
+    .score-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+    .timer-settings {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 9px;
+      background: white;
+    }
+
+    .timer-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .rules { color: var(--muted); line-height: 1.55; margin: 0; font-size: .9rem; }
+    .timer-warning { color: var(--danger); animation: pulse .7s infinite alternate; }
+
+    @keyframes pulse {
+      from { opacity: 1; transform: scale(1); }
+      to { opacity: .45; transform: scale(1.08); }
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      margin-top: 20px;
+      font-size: .82rem;
+    }
+
+    @media (max-width: 950px) {
+      .mode-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .dashboard { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 680px) {
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .mode-grid { grid-template-columns: 1fr; }
+      .dashboard { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .sidebar { grid-template-columns: 1fr; }
+      .answer-row { grid-template-columns: 1fr; }
+      .emoji-display { min-height: 155px; font-size: 3.7rem; }
+      .game-panel { padding: 13px; }
+      .challenge { padding: 14px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="title-wrap">
+        <div class="logo">🧩</div>
+        <div>
+          <h1>Emoji Word Challenge</h1>
+          <p class="subtitle">Guess single words, compound words, idioms, and expressions from picture clues.</p>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <a href="index.html" class="btn home-link">← Home</a>
+        <button id="fullscreenBtn" class="btn" type="button">Full Screen</button>
+      </div>
+    </header>
+
+    <section id="modeScreen" class="mode-screen">
+      <div class="mode-heading">
+        <h2>Choose a Game Mode</h2>
+        <p>Each main category contains 30 unique quizzes. Mixed Challenge combines all 90.</p>
+      </div>
+
+      <div class="mode-grid">
+        <button class="mode-card" data-mode="single" type="button">
+          <div class="mode-icon">🔤</div>
+          <h3>Single Words</h3>
+          <p>Clear picture clues for everyday vocabulary.</p>
+          <span class="mode-count">30 quizzes</span>
+        </button>
+
+        <button class="mode-card" data-mode="compound" type="button">
+          <div class="mode-icon">🧩</div>
+          <h3>Compound Words</h3>
+          <p>Combine two or more picture ideas to make one word.</p>
+          <span class="mode-count">30 quizzes</span>
+        </button>
+
+        <button class="mode-card" data-mode="idiom" type="button">
+          <div class="mode-icon">💬</div>
+          <h3>Idioms & Expressions</h3>
+          <p>Guess common English idioms from visual clues.</p>
+          <span class="mode-count">30 quizzes</span>
+        </button>
+
+        <button class="mode-card" data-mode="mixed" type="button">
+          <div class="mode-icon">🔥</div>
+          <h3>Mixed Challenge</h3>
+          <p>Random questions from all three categories.</p>
+          <span class="mode-count">90-question pool</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="game-screen">
+      <section class="dashboard" aria-label="Game statistics">
+        <article class="stat">
+          <div class="stat-label">Mode</div>
+          <div id="modeDisplay" class="stat-value mode-value">Single Words</div>
+        </article>
+        <article class="stat">
+          <div class="stat-label">Question</div>
+          <div id="questionNumber" class="stat-value">1 / 30</div>
+        </article>
+        <article class="stat">
+          <div class="stat-label">Team A</div>
+          <div id="scoreA" class="stat-value">0</div>
+        </article>
+        <article class="stat">
+          <div class="stat-label">Team B</div>
+          <div id="scoreB" class="stat-value">0</div>
+        </article>
+        <article class="stat">
+          <div class="stat-label">Timer</div>
+          <div id="timerDisplay" class="stat-value">30</div>
+        </article>
+      </section>
+
+      <section class="layout">
+        <section class="panel game-panel">
+          <div class="challenge">
+            <div id="categoryPill" class="category-pill">🔤 Single Word</div>
+            <div id="emojiDisplay" class="emoji-display" aria-label="Emoji clue"></div>
+
+            <div class="answer-row">
+              <input id="answerInput" type="text" placeholder="Type the answer..." autocomplete="off">
+              <button id="checkBtn" class="btn btn-success" type="button">Check Answer</button>
+            </div>
+
+            <div class="action-row">
+              <button id="hintBtn" class="btn btn-warning" type="button">Hint</button>
+              <button id="revealBtn" class="btn btn-danger" type="button">Reveal Answer</button>
+              <button id="nextBtn" class="btn btn-primary" type="button">Next Question</button>
+              <button id="newGameBtn" class="btn" type="button">Restart Mode</button>
+              <button id="changeModeBtn" class="btn" type="button">Change Mode</button>
+            </div>
+
+            <div id="feedback" class="feedback"></div>
+            <div id="hintBox" class="info-box hint-box"></div>
+            <div id="answerBox" class="info-box answer-box">
+              <strong id="answerText"></strong>
+              <div id="explanationText" class="explanation"></div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="sidebar">
+          <section class="panel side-panel">
+            <h2>Team Scores</h2>
+            <div class="score-team">
+              <div class="team-name">Team A</div>
+              <div id="teamAScoreLarge" class="big-score">0 points</div>
+              <div class="score-buttons">
+                <button id="teamAPlus" class="btn btn-success" type="button">+1</button>
+                <button id="teamAMinus" class="btn" type="button">−1</button>
+              </div>
+            </div>
+            <div class="score-team">
+              <div class="team-name">Team B</div>
+              <div id="teamBScoreLarge" class="big-score">0 points</div>
+              <div class="score-buttons">
+                <button id="teamBPlus" class="btn btn-success" type="button">+1</button>
+                <button id="teamBMinus" class="btn" type="button">−1</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel side-panel">
+            <h2>Timer</h2>
+            <div class="timer-settings">
+              <select id="timerSelect" aria-label="Timer length">
+                <option value="20">20 seconds</option>
+                <option value="30" selected>30 seconds</option>
+                <option value="45">45 seconds</option>
+                <option value="60">60 seconds</option>
+              </select>
+              <div class="timer-controls">
+                <button id="startTimerBtn" class="btn btn-primary" type="button">Start</button>
+                <button id="pauseTimerBtn" class="btn" type="button">Pause</button>
+              </div>
+              <button id="resetTimerBtn" class="btn" type="button">Reset Timer</button>
+            </div>
+          </section>
+
+          <section class="panel side-panel">
+            <h2>How to Play</h2>
+            <p class="rules">
+              Divide the class into two teams. Let students discuss the picture clue.
+              A correct answer can earn 1 point. For idioms, award an optional bonus point
+              if students explain the meaning or use the expression correctly in a sentence.
+            </p>
+          </section>
+        </aside>
+      </section>
+    </section>
+
+    <div class="footer">
+      Sharp clue images powered by Twemoji SVG graphics. Twemoji graphics: CC-BY 4.0.
+    </div>
+  </main>
+
+  <script>
+    const puzzles = [
+  {
+    "emoji": "🍎",
+    "answer": "apple",
+    "category": "single",
+    "hint": "A common red or green fruit.",
+    "explanation": "An apple is a round fruit that grows on trees."
+  },
+  {
+    "emoji": "🐘",
+    "answer": "elephant",
+    "category": "single",
+    "hint": "A very large animal with a trunk.",
+    "explanation": "An elephant is a large land animal with a long trunk."
+  },
+  {
+    "emoji": "🚲",
+    "answer": "bicycle",
+    "category": "single",
+    "hint": "A vehicle with two wheels and pedals.",
+    "explanation": "A bicycle is a two-wheeled vehicle powered by pedalling."
+  },
+  {
+    "emoji": "🏥",
+    "answer": "hospital",
+    "category": "single",
+    "hint": "A place where sick or injured people receive treatment.",
+    "explanation": "A hospital is a place where doctors and nurses care for patients."
+  },
+  {
+    "emoji": "📚",
+    "answer": "library",
+    "category": "single",
+    "hint": "A place where you can borrow and read books.",
+    "explanation": "A library is a place that keeps books and other resources for reading or borrowing."
+  },
+  {
+    "emoji": "✈️",
+    "answer": "airplane",
+    "category": "single",
+    "hint": "A vehicle that flies in the sky.",
+    "explanation": "An airplane is a powered aircraft used to carry people or goods."
+  },
+  {
+    "emoji": "🎸",
+    "answer": "guitar",
+    "category": "single",
+    "hint": "A musical instrument with strings.",
+    "explanation": "A guitar is a stringed musical instrument."
+  },
+  {
+    "emoji": "🍕",
+    "answer": "pizza",
+    "category": "single",
+    "hint": "A popular round food with cheese and toppings.",
+    "explanation": "Pizza is a baked dish usually made with dough, sauce, cheese, and toppings."
+  },
+  {
+    "emoji": "🌋",
+    "answer": "volcano",
+    "category": "single",
+    "hint": "A mountain that can erupt.",
+    "explanation": "A volcano is an opening in the Earth's crust that can release lava, ash, and gases."
+  },
+  {
+    "emoji": "🧊",
+    "answer": "ice",
+    "category": "single",
+    "hint": "Frozen water.",
+    "explanation": "Ice is water in its solid, frozen form."
+  },
+  {
+    "emoji": "🌵",
+    "answer": "cactus",
+    "category": "single",
+    "hint": "A desert plant with spines.",
+    "explanation": "A cactus is a plant adapted to dry environments, often with spines."
+  },
+  {
+    "emoji": "🦋",
+    "answer": "butterfly",
+    "category": "single",
+    "hint": "A colorful insect with wings.",
+    "explanation": "A butterfly is a flying insect with large, often colorful wings."
+  },
+  {
+    "emoji": "🎁",
+    "answer": "present",
+    "category": "single",
+    "hint": "Something you give someone on a special occasion.",
+    "explanation": "A present is a gift given to another person."
+  },
+  {
+    "emoji": "🧭",
+    "answer": "compass",
+    "category": "single",
+    "hint": "It helps you find directions.",
+    "explanation": "A compass is an instrument that shows direction."
+  },
+  {
+    "emoji": "🚀",
+    "answer": "rocket",
+    "category": "single",
+    "hint": "It can travel into space.",
+    "explanation": "A rocket is a vehicle propelled by engines, often used for space travel."
+  },
+  {
+    "emoji": "🪥",
+    "answer": "toothbrush",
+    "category": "single",
+    "hint": "You use it to clean your teeth.",
+    "explanation": "A toothbrush is a small brush used for cleaning teeth."
+  },
+  {
+    "emoji": "🎻",
+    "answer": "violin",
+    "category": "single",
+    "hint": "A small string instrument played with a bow.",
+    "explanation": "A violin is a four-stringed musical instrument played with a bow."
+  },
+  {
+    "emoji": "🦉",
+    "answer": "owl",
+    "category": "single",
+    "hint": "A bird that is often active at night.",
+    "explanation": "An owl is a bird of prey known for large eyes and nighttime activity."
+  },
+  {
+    "emoji": "🏰",
+    "answer": "castle",
+    "category": "single",
+    "hint": "A large old building where kings or queens may have lived.",
+    "explanation": "A castle is a large fortified building, historically used by royalty or nobles."
+  },
+  {
+    "emoji": "🧤",
+    "answer": "glove",
+    "category": "single",
+    "hint": "You wear it on your hand.",
+    "explanation": "A glove is a covering worn on the hand."
+  },
+  {
+    "emoji": "🪜",
+    "answer": "ladder",
+    "category": "single",
+    "hint": "You climb it to reach a high place.",
+    "explanation": "A ladder is a set of steps used for climbing up or down."
+  },
+  {
+    "emoji": "🚦",
+    "answer": "traffic light",
+    "category": "single",
+    "hint": "It uses red, yellow, and green to control traffic.",
+    "explanation": "A traffic light controls road traffic using colored signals."
+  },
+  {
+    "emoji": "🦈",
+    "answer": "shark",
+    "category": "single",
+    "hint": "A large fish with sharp teeth.",
+    "explanation": "A shark is a type of fish, many species of which have sharp teeth."
+  },
+  {
+    "emoji": "🌂",
+    "answer": "umbrella",
+    "category": "single",
+    "hint": "You use it when it rains.",
+    "explanation": "An umbrella is a folding cover used for protection from rain or sun."
+  },
+  {
+    "emoji": "🧳",
+    "answer": "suitcase",
+    "category": "single",
+    "hint": "You pack clothes in it when you travel.",
+    "explanation": "A suitcase is a case used for carrying clothes and belongings while travelling."
+  },
+  {
+    "emoji": "🪞",
+    "answer": "mirror",
+    "category": "single",
+    "hint": "You can see your reflection in it.",
+    "explanation": "A mirror is a reflective surface that shows an image."
+  },
+  {
+    "emoji": "🧯",
+    "answer": "fire extinguisher",
+    "category": "single",
+    "hint": "It is used to put out a small fire.",
+    "explanation": "A fire extinguisher is a device used to control or put out small fires."
+  },
+  {
+    "emoji": "🎤",
+    "answer": "microphone",
+    "category": "single",
+    "hint": "You speak or sing into it.",
+    "explanation": "A microphone is a device that captures sound."
+  },
+  {
+    "emoji": "🏖️",
+    "answer": "beach",
+    "category": "single",
+    "hint": "A sandy place next to the sea.",
+    "explanation": "A beach is a shore area beside a sea, ocean, lake, or river."
+  },
+  {
+    "emoji": "🧩",
+    "answer": "puzzle",
+    "category": "single",
+    "hint": "A game or problem you solve by thinking.",
+    "explanation": "A puzzle is a problem or game designed to test thinking or knowledge."
+  },
+  {
+    "emoji": "📖 + 🐛",
+    "answer": "bookworm",
+    "category": "compound",
+    "hint": "A person who loves reading.",
+    "explanation": "A bookworm is someone who reads a lot."
+  },
+  {
+    "emoji": "🔥 + 🪰",
+    "answer": "firefly",
+    "category": "compound",
+    "hint": "A small insect that glows at night.",
+    "explanation": "A firefly is an insect that produces light."
+  },
+  {
+    "emoji": "⭐ + 🐟",
+    "answer": "starfish",
+    "category": "compound",
+    "hint": "A sea animal with a star-like shape.",
+    "explanation": "A starfish is a marine animal with several arms."
+  },
+  {
+    "emoji": "🌙 + 💡",
+    "answer": "moonlight",
+    "category": "compound",
+    "hint": "Natural light seen at night.",
+    "explanation": "Moonlight is light from the moon."
+  },
+  {
+    "emoji": "🌲 + 🍎",
+    "answer": "pineapple",
+    "category": "compound",
+    "hint": "A tropical fruit with rough skin.",
+    "explanation": "Pineapple is the name of a tropical fruit."
+  },
+  {
+    "emoji": "🦷 + 🪥",
+    "answer": "toothbrush",
+    "category": "compound",
+    "hint": "You use it to clean your teeth.",
+    "explanation": "A toothbrush is a brush used to clean teeth."
+  },
+  {
+    "emoji": "❄️ + 👨",
+    "answer": "snowman",
+    "category": "compound",
+    "hint": "Children often build it in winter.",
+    "explanation": "A snowman is a person-shaped figure made from snow."
+  },
+  {
+    "emoji": "☀️ + 👓",
+    "answer": "sunglasses",
+    "category": "compound",
+    "hint": "You wear these on a bright day.",
+    "explanation": "Sunglasses protect your eyes from bright sunlight."
+  },
+  {
+    "emoji": "🌧️ + 🏹",
+    "answer": "rainbow",
+    "category": "compound",
+    "hint": "It can appear after rain.",
+    "explanation": "A rainbow is a curved band of colors in the sky."
+  },
+  {
+    "emoji": "👣 + 🖨️",
+    "answer": "footprint",
+    "category": "compound",
+    "hint": "A mark left by a foot.",
+    "explanation": "A footprint is the mark made by a foot or shoe."
+  },
+  {
+    "emoji": "🌊 + 🐚",
+    "answer": "seashell",
+    "category": "compound",
+    "hint": "You may find it on a beach.",
+    "explanation": "A seashell is the hard outer covering of a sea animal."
+  },
+  {
+    "emoji": "☀️ + 🌻",
+    "answer": "sunflower",
+    "category": "compound",
+    "hint": "A tall yellow plant.",
+    "explanation": "A sunflower is a large yellow flower."
+  },
+  {
+    "emoji": "🛏️ + 🚪",
+    "answer": "bedroom",
+    "category": "compound",
+    "hint": "A room used for sleeping.",
+    "explanation": "A bedroom is a room containing a bed."
+  },
+  {
+    "emoji": "🦶 + ⚽",
+    "answer": "football",
+    "category": "compound",
+    "hint": "A very popular sport.",
+    "explanation": "Football is a sport played with a ball, mainly using the feet."
+  },
+  {
+    "emoji": "🔑 + ⌨️",
+    "answer": "keyboard",
+    "category": "compound",
+    "hint": "You use it to type.",
+    "explanation": "A keyboard contains keys used for typing."
+  },
+  {
+    "emoji": "💧 + ⬇️",
+    "answer": "waterfall",
+    "category": "compound",
+    "hint": "Water drops from a high place.",
+    "explanation": "A waterfall is water flowing over a steep edge."
+  },
+  {
+    "emoji": "🌧️ + 🧥",
+    "answer": "raincoat",
+    "category": "compound",
+    "hint": "You wear it to stay dry.",
+    "explanation": "A raincoat is a waterproof coat worn in rainy weather."
+  },
+  {
+    "emoji": "📰 + 📄",
+    "answer": "newspaper",
+    "category": "compound",
+    "hint": "It contains news and articles.",
+    "explanation": "A newspaper is a publication containing news and other information."
+  },
+  {
+    "emoji": "🦷 + 🧴",
+    "answer": "toothpaste",
+    "category": "compound",
+    "hint": "You put it on your toothbrush.",
+    "explanation": "Toothpaste is a paste used to clean teeth."
+  },
+  {
+    "emoji": "☕ + 🧁",
+    "answer": "cupcake",
+    "category": "compound",
+    "hint": "A small individual cake.",
+    "explanation": "A cupcake is a small cake baked in a cup-shaped container."
+  },
+  {
+    "emoji": "👂 + 💍",
+    "answer": "earring",
+    "category": "compound",
+    "hint": "Jewelry worn on the ear.",
+    "explanation": "An earring is a piece of jewelry worn on the ear."
+  },
+  {
+    "emoji": "🖐️ + 👜",
+    "answer": "handbag",
+    "category": "compound",
+    "hint": "A small bag carried by hand.",
+    "explanation": "A handbag is a bag used to carry personal items."
+  },
+  {
+    "emoji": "🧑 + 🐟",
+    "answer": "fisherman",
+    "category": "compound",
+    "hint": "A person who catches fish.",
+    "explanation": "A fisherman is a person who catches fish."
+  },
+  {
+    "emoji": "🧈 + 🪰",
+    "answer": "butterfly",
+    "category": "compound",
+    "hint": "A colorful flying insect.",
+    "explanation": "Butterfly is a compound word historically formed from butter + fly."
+  },
+  {
+    "emoji": "🐦 + 🏠",
+    "answer": "birdhouse",
+    "category": "compound",
+    "hint": "A small house made for birds.",
+    "explanation": "A birdhouse is a small shelter or nesting box for birds."
+  },
+  {
+    "emoji": "📚 + 🧳",
+    "answer": "schoolbag",
+    "category": "compound",
+    "hint": "Students carry books in it.",
+    "explanation": "A schoolbag is a bag used to carry school materials."
+  },
+  {
+    "emoji": "🦶 + 👣",
+    "answer": "footstep",
+    "category": "compound",
+    "hint": "The sound or mark of someone walking.",
+    "explanation": "A footstep is a step made by a foot or the sound it makes."
+  },
+  {
+    "emoji": "☀️ + ⬆️",
+    "answer": "sunrise",
+    "category": "compound",
+    "hint": "The time when the sun appears in the morning.",
+    "explanation": "Sunrise is the time when the sun first appears above the horizon."
+  },
+  {
+    "emoji": "🌙 + ⬆️",
+    "answer": "moonrise",
+    "category": "compound",
+    "hint": "The time when the moon appears above the horizon.",
+    "explanation": "Moonrise is the time when the moon rises above the horizon."
+  },
+  {
+    "emoji": "✉️ + 📦",
+    "answer": "mailbox",
+    "category": "compound",
+    "hint": "A box where letters are delivered.",
+    "explanation": "A mailbox is a box used to receive or send mail."
+  },
+  {
+    "emoji": "🔨 + 🧊",
+    "answer": "break the ice",
+    "category": "idiom",
+    "hint": "Make people feel relaxed when they first meet.",
+    "explanation": "To break the ice means to begin a friendly conversation and reduce tension."
+  },
+  {
+    "emoji": "🌧️ + 🐈 + 🐕",
+    "answer": "raining cats and dogs",
+    "category": "idiom",
+    "hint": "The weather is extremely wet.",
+    "explanation": "It is raining cats and dogs means it is raining very heavily."
+  },
+  {
+    "emoji": "⏰ + 🪰",
+    "answer": "time flies",
+    "category": "idiom",
+    "hint": "Time seems to pass very quickly.",
+    "explanation": "Time flies means time seems to pass very quickly."
+  },
+  {
+    "emoji": "🍰 + 1️⃣",
+    "answer": "piece of cake",
+    "category": "idiom",
+    "hint": "Something is very easy.",
+    "explanation": "A piece of cake means something is very easy to do."
+  },
+  {
+    "emoji": "⬇️ + 🌦️",
+    "answer": "under the weather",
+    "category": "idiom",
+    "hint": "You do not feel well.",
+    "explanation": "Under the weather means feeling ill or unwell."
+  },
+  {
+    "emoji": "📚 + 👊",
+    "answer": "hit the books",
+    "category": "idiom",
+    "hint": "Study hard.",
+    "explanation": "Hit the books means to begin studying seriously."
+  },
+  {
+    "emoji": "🫘 + 🫗",
+    "answer": "spill the beans",
+    "category": "idiom",
+    "hint": "Reveal a secret.",
+    "explanation": "Spill the beans means to reveal secret information."
+  },
+  {
+    "emoji": "🦵 + 💥",
+    "answer": "break a leg",
+    "category": "idiom",
+    "hint": "A way to wish someone good luck.",
+    "explanation": "Break a leg is an informal way to wish a performer good luck."
+  },
+  {
+    "emoji": "👀 + 👁️",
+    "answer": "see eye to eye",
+    "category": "idiom",
+    "hint": "Agree completely.",
+    "explanation": "See eye to eye means to agree with someone."
+  },
+  {
+    "emoji": "💰 + 🦵 + 💪",
+    "answer": "cost an arm and a leg",
+    "category": "idiom",
+    "hint": "Be extremely expensive.",
+    "explanation": "Cost an arm and a leg means to be very expensive."
+  },
+  {
+    "emoji": "🐖 + ✈️",
+    "answer": "when pigs fly",
+    "category": "idiom",
+    "hint": "Something will probably never happen.",
+    "explanation": "When pigs fly refers to something considered impossible or extremely unlikely."
+  },
+  {
+    "emoji": "🐟 + 💧",
+    "answer": "fish out of water",
+    "category": "idiom",
+    "hint": "Feel uncomfortable in an unfamiliar situation.",
+    "explanation": "A fish out of water is someone who feels uncomfortable because they are in an unfamiliar situation."
+  },
+  {
+    "emoji": "🥚 + 🧺",
+    "answer": "put all your eggs in one basket",
+    "category": "idiom",
+    "hint": "Risk everything on one plan.",
+    "explanation": "Put all your eggs in one basket means to depend completely on one plan or choice."
+  },
+  {
+    "emoji": "🔥 + ⛽",
+    "answer": "add fuel to the fire",
+    "category": "idiom",
+    "hint": "Make a bad situation worse.",
+    "explanation": "Add fuel to the fire means to make an argument or difficult situation worse."
+  },
+  {
+    "emoji": "🐘 + 🏠",
+    "answer": "elephant in the room",
+    "category": "idiom",
+    "hint": "An obvious problem everyone avoids discussing.",
+    "explanation": "The elephant in the room is an obvious issue that people are avoiding."
+  },
+  {
+    "emoji": "🛏️ + 🛌",
+    "answer": "hit the sack",
+    "category": "idiom",
+    "hint": "Go to bed.",
+    "explanation": "Hit the sack means to go to bed."
+  },
+  {
+    "emoji": "👅 + 🐈",
+    "answer": "cat got your tongue",
+    "category": "idiom",
+    "hint": "Said when someone is unusually quiet.",
+    "explanation": "Cat got your tongue? is said when someone is not speaking when expected."
+  },
+  {
+    "emoji": "🐂 + 🐂",
+    "answer": "take the bull by the horns",
+    "category": "idiom",
+    "hint": "Deal directly with a difficult situation.",
+    "explanation": "Take the bull by the horns means to face a difficult situation confidently."
+  },
+  {
+    "emoji": "🧊 + 🧊",
+    "answer": "tip of the iceberg",
+    "category": "idiom",
+    "hint": "Only a small visible part of a much bigger problem.",
+    "explanation": "The tip of the iceberg is the small visible part of a much larger issue."
+  },
+  {
+    "emoji": "🌉 + 🚶",
+    "answer": "cross that bridge when we come to it",
+    "category": "idiom",
+    "hint": "Deal with a problem only when it actually happens.",
+    "explanation": "Cross that bridge when we come to it means to handle a problem when it becomes necessary."
+  },
+  {
+    "emoji": "👂 + 🎵",
+    "answer": "music to my ears",
+    "category": "idiom",
+    "hint": "Something you are very happy to hear.",
+    "explanation": "Music to my ears means news or information that is very pleasing."
+  },
+  {
+    "emoji": "🪙 + 💭",
+    "answer": "a penny for your thoughts",
+    "category": "idiom",
+    "hint": "Ask someone what they are thinking.",
+    "explanation": "A penny for your thoughts is a way to ask someone what is on their mind."
+  },
+  {
+    "emoji": "🔥 + 🪵",
+    "answer": "keep the fire burning",
+    "category": "idiom",
+    "hint": "Keep enthusiasm or interest alive.",
+    "explanation": "Keep the fire burning means to maintain enthusiasm, effort, or passion."
+  },
+  {
+    "emoji": "🍎 + 👁️",
+    "answer": "apple of my eye",
+    "category": "idiom",
+    "hint": "Someone you love or value very much.",
+    "explanation": "The apple of my eye is a person who is very special and loved."
+  },
+  {
+    "emoji": "🛤️ + 🪨",
+    "answer": "rocky road",
+    "category": "idiom",
+    "hint": "A difficult period or situation.",
+    "explanation": "A rocky road means a difficult path or period with many problems."
+  },
+  {
+    "emoji": "☁️ + 9️⃣",
+    "answer": "on cloud nine",
+    "category": "idiom",
+    "hint": "Extremely happy.",
+    "explanation": "On cloud nine means feeling extremely happy."
+  },
+  {
+    "emoji": "🕯️ + 2️⃣ + 🔚",
+    "answer": "burn the candle at both ends",
+    "category": "idiom",
+    "hint": "Work too hard with too little rest.",
+    "explanation": "Burn the candle at both ends means to exhaust yourself by doing too much and resting too little."
+  },
+  {
+    "emoji": "🧱 + 🧱 + 👂",
+    "answer": "talking to a brick wall",
+    "category": "idiom",
+    "hint": "Talk to someone who refuses to listen.",
+    "explanation": "Talking to a brick wall means speaking to someone who does not listen or respond."
+  },
+  {
+    "emoji": "🪨 + 🛶 + 🚫",
+    "answer": "don't rock the boat",
+    "category": "idiom",
+    "hint": "Do not cause trouble in a stable situation.",
+    "explanation": "Don't rock the boat means avoid causing unnecessary problems or conflict."
+  },
+  {
+    "emoji": "🐦 + 🖐️ + 🌳",
+    "answer": "a bird in the hand is worth two in the bush",
+    "category": "idiom",
+    "hint": "It is better to keep something certain than risk it for something better.",
+    "explanation": "This idiom means a sure thing is more valuable than a risky possibility."
+  }
+];
+
+    const modeNames = {
+      single: "Single Words",
+      compound: "Compound Words",
+      idiom: "Idioms & Expressions",
+      mixed: "Mixed Challenge"
+    };
+
+    const categoryNames = {
+      single: "🔤 Single Word",
+      compound: "🧩 Compound Word",
+      idiom: "💬 Idiom / Expression"
+    };
+
+    let currentMode = null;
+    let gamePuzzles = [];
+    let currentIndex = 0;
+    let scoreA = 0;
+    let scoreB = 0;
+    let timerId = null;
+    let timeLeft = 30;
+
+    const elements = {
+      modeScreen: document.getElementById("modeScreen"),
+      gameScreen: document.getElementById("gameScreen"),
+      modeDisplay: document.getElementById("modeDisplay"),
+      questionNumber: document.getElementById("questionNumber"),
+      categoryPill: document.getElementById("categoryPill"),
+      emojiDisplay: document.getElementById("emojiDisplay"),
+      answerInput: document.getElementById("answerInput"),
+      feedback: document.getElementById("feedback"),
+      hintBox: document.getElementById("hintBox"),
+      answerBox: document.getElementById("answerBox"),
+      answerText: document.getElementById("answerText"),
+      explanationText: document.getElementById("explanationText"),
+      timerDisplay: document.getElementById("timerDisplay"),
+      timerSelect: document.getElementById("timerSelect")
+    };
+
+    function shuffle(array) {
+      const copy = [...array];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function normalizeAnswer(value) {
+      return value
+        .trim()
+        .toLowerCase()
+        .replace(/[’']/g, "'")
+        .replace(/[.!?,]/g, "")
+        .replace(/\s+/g, " ");
+    }
+
+    function acceptedAnswers(answer) {
+      const base = normalizeAnswer(answer);
+      const options = new Set([base]);
+
+      if (base === "airplane") options.add("aeroplane");
+      if (base === "present") options.add("gift");
+      if (base === "traffic light") options.add("traffic lights");
+      if (base === "fire extinguisher") options.add("extinguisher");
+      if (base === "raining cats and dogs") options.add("rain cats and dogs");
+      if (base === "a bird in the hand is worth two in the bush") {
+        options.add("bird in the hand is worth two in the bush");
+      }
+
+      return [...options];
+    }
+
+    function parseSharpEmoji() {
+      if (window.twemoji) {
+        twemoji.parse(elements.emojiDisplay, {
+          folder: "svg",
+          ext: ".svg"
+        });
+      }
+    }
+
+    function startMode(mode) {
+      currentMode = mode;
+      scoreA = 0;
+      scoreB = 0;
+      updateScores();
+
+      if (mode === "mixed") {
+        gamePuzzles = shuffle(puzzles);
+      } else {
+        gamePuzzles = shuffle(puzzles.filter(p => p.category === mode));
+      }
+
+      currentIndex = 0;
+      elements.modeScreen.style.display = "none";
+      elements.gameScreen.style.display = "block";
+      elements.modeDisplay.textContent = modeNames[mode];
+      loadPuzzle();
+    }
+
+    function loadPuzzle() {
+      stopTimer();
+      resetTimer();
+
+      const puzzle = gamePuzzles[currentIndex];
+
+      elements.questionNumber.textContent = `${currentIndex + 1} / ${gamePuzzles.length}`;
+      elements.categoryPill.textContent = categoryNames[puzzle.category];
+      elements.emojiDisplay.textContent = puzzle.emoji;
+      parseSharpEmoji();
+
+      elements.answerInput.value = "";
+      elements.feedback.textContent = "";
+      elements.feedback.style.color = "";
+      elements.hintBox.style.display = "none";
+      elements.answerBox.style.display = "none";
+      elements.hintBox.textContent = "";
+      elements.answerText.textContent = "";
+      elements.explanationText.textContent = "";
+
+      elements.answerInput.focus();
+    }
+
+    function checkAnswer() {
+      const puzzle = gamePuzzles[currentIndex];
+      const user = normalizeAnswer(elements.answerInput.value);
+
+      if (!user) {
+        elements.feedback.textContent = "Type an answer first.";
+        elements.feedback.style.color = "var(--warning)";
+        return;
+      }
+
+      if (acceptedAnswers(puzzle.answer).includes(user)) {
+        elements.feedback.textContent = "✅ Correct!";
+        elements.feedback.style.color = "var(--success)";
+      } else {
+        elements.feedback.textContent = "❌ Not quite. Try again!";
+        elements.feedback.style.color = "var(--danger)";
+      }
+    }
+
+    function showHint() {
+      const puzzle = gamePuzzles[currentIndex];
+      elements.hintBox.textContent = "💡 " + puzzle.hint;
+      elements.hintBox.style.display = "block";
+    }
+
+    function showAnswer() {
+      const puzzle = gamePuzzles[currentIndex];
+      elements.answerText.textContent = "Answer: " + puzzle.answer;
+      elements.explanationText.textContent = puzzle.explanation;
+      elements.answerBox.style.display = "block";
+    }
+
+    function nextPuzzle() {
+      if (currentIndex < gamePuzzles.length - 1) {
+        currentIndex++;
+      } else {
+        gamePuzzles = shuffle(gamePuzzles);
+        currentIndex = 0;
+      }
+      loadPuzzle();
+    }
+
+    function restartMode() {
+      gamePuzzles = shuffle(gamePuzzles);
+      currentIndex = 0;
+      scoreA = 0;
+      scoreB = 0;
+      updateScores();
+      loadPuzzle();
+    }
+
+    function changeMode() {
+      stopTimer();
+      elements.gameScreen.style.display = "none";
+      elements.modeScreen.style.display = "block";
+    }
+
+    function resetTimer() {
+      timeLeft = Number(elements.timerSelect.value);
+      elements.timerDisplay.textContent = timeLeft;
+      elements.timerDisplay.classList.remove("timer-warning");
+    }
+
+    function startTimer() {
+      stopTimer();
+      if (timeLeft <= 0) resetTimer();
+
+      timerId = setInterval(() => {
+        timeLeft -= 1;
+        elements.timerDisplay.textContent = timeLeft;
+
+        if (timeLeft <= 5) {
+          elements.timerDisplay.classList.add("timer-warning");
+        }
+
+        if (timeLeft <= 0) {
+          stopTimer();
+          elements.timerDisplay.textContent = "0";
+          elements.feedback.textContent = "⏰ Time's up!";
+          elements.feedback.style.color = "var(--danger)";
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+      }
+      elements.timerDisplay.classList.remove("timer-warning");
+    }
+
+    function updateScores() {
+      document.getElementById("scoreA").textContent = scoreA;
+      document.getElementById("scoreB").textContent = scoreB;
+      document.getElementById("teamAScoreLarge").textContent = `${scoreA} ${scoreA === 1 ? "point" : "points"}`;
+      document.getElementById("teamBScoreLarge").textContent = `${scoreB} ${scoreB === 1 ? "point" : "points"}`;
+    }
+
+    async function toggleFullscreen() {
+      try {
+        if (!document.fullscreenElement) {
+          await document.documentElement.requestFullscreen();
+        } else {
+          await document.exitFullscreen();
+        }
+      } catch (error) {
+        alert("Full-screen mode is not available in this browser.");
+      }
+    }
+
+    document.querySelectorAll(".mode-card").forEach(button => {
+      button.addEventListener("click", () => startMode(button.dataset.mode));
+    });
+
+    document.getElementById("checkBtn").addEventListener("click", checkAnswer);
+    document.getElementById("hintBtn").addEventListener("click", showHint);
+    document.getElementById("revealBtn").addEventListener("click", showAnswer);
+    document.getElementById("nextBtn").addEventListener("click", nextPuzzle);
+    document.getElementById("newGameBtn").addEventListener("click", restartMode);
+    document.getElementById("changeModeBtn").addEventListener("click", changeMode);
+    document.getElementById("startTimerBtn").addEventListener("click", startTimer);
+    document.getElementById("pauseTimerBtn").addEventListener("click", stopTimer);
+    document.getElementById("resetTimerBtn").addEventListener("click", () => {
+      stopTimer();
+      resetTimer();
+    });
+    document.getElementById("fullscreenBtn").addEventListener("click", toggleFullscreen);
+
+    elements.timerSelect.addEventListener("change", () => {
+      stopTimer();
+      resetTimer();
+    });
+
+    elements.answerInput.addEventListener("keydown", event => {
+      if (event.key === "Enter") checkAnswer();
+    });
+
+    document.getElementById("teamAPlus").addEventListener("click", () => {
+      scoreA += 1;
+      updateScores();
+    });
+    document.getElementById("teamAMinus").addEventListener("click", () => {
+      scoreA = Math.max(0, scoreA - 1);
+      updateScores();
+    });
+    document.getElementById("teamBPlus").addEventListener("click", () => {
+      scoreB += 1;
+      updateScores();
+    });
+    document.getElementById("teamBMinus").addEventListener("click", () => {
+      scoreB = Math.max(0, scoreB - 1);
+      updateScores();
+    });
+
+    document.addEventListener("fullscreenchange", () => {
+      document.getElementById("fullscreenBtn").textContent =
+        document.fullscreenElement ? "Exit Full Screen" : "Full Screen";
+    });
+
+    // Render the decorative page emojis sharply too.
+    if (window.twemoji) {
+      twemoji.parse(document.querySelector(".mode-screen"), { folder: "svg", ext: ".svg" });
+    }
+
+    updateScores();
+    resetTimer();
+  </script>
+</body>
+</html>
