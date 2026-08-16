@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arrange the Sentence | Ash's Classroom">
+
+  <title>Arrange the Sentence | Ash's Classroom</title>
 
   <style>
     * {
@@ -21,17 +23,18 @@
     header {
       background: linear-gradient(135deg, #4f46e5, #7c3aed);
       color: white;
-      padding: 25px 20px;
+      padding: 30px 20px;
       text-align: center;
     }
 
     header h1 {
       margin: 0;
-      font-size: 2.2rem;
+      font-size: 2.3rem;
     }
 
     header p {
-      margin-top: 8px;
+      margin-top: 10px;
+      font-size: 1.1rem;
     }
 
     .top-bar {
@@ -65,16 +68,17 @@
     }
 
     .question-number {
-      font-size: 1rem;
+      text-align: center;
       color: #666;
       margin-bottom: 10px;
+      font-weight: bold;
     }
 
     .instruction {
       font-size: 1.4rem;
       font-weight: bold;
-      margin-bottom: 25px;
       text-align: center;
+      margin-bottom: 25px;
     }
 
     .word-bank,
@@ -99,6 +103,12 @@
       background: #fafafa;
     }
 
+    .answer-label {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
     .word {
       background: #4f46e5;
       color: white;
@@ -107,25 +117,19 @@
       font-size: 1.2rem;
       cursor: pointer;
       user-select: none;
-      transition: transform 0.15s;
+      transition: 0.2s;
     }
 
     .word:hover {
       transform: scale(1.05);
     }
 
-    .answer-label {
-      font-weight: bold;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-
     .buttons {
       margin-top: 25px;
       display: flex;
+      justify-content: center;
       gap: 12px;
       flex-wrap: wrap;
-      justify-content: center;
     }
 
     button {
@@ -153,21 +157,25 @@
     }
 
     .feedback {
-      margin-top: 20px;
       text-align: center;
+      margin-top: 20px;
+      min-height: 35px;
       font-size: 1.3rem;
       font-weight: bold;
-      min-height: 32px;
     }
 
     .score {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 10px;
       font-weight: bold;
       color: #555;
     }
 
     @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
       .game-card {
         padding: 20px;
       }
@@ -175,10 +183,6 @@
       .word {
         font-size: 1rem;
         padding: 12px 15px;
-      }
-
-      header h1 {
-        font-size: 1.8rem;
       }
     }
   </style>
@@ -192,151 +196,327 @@
   </header>
 
   <div class="top-bar">
-    <a class="home-button" href="index.html">← Back to Home</a>
+    <a href="index.html" class="home-button">
+      ← Back to Home
+    </a>
   </div>
 
-  <div class="game-container">
+  <main class="game-container">
+
     <div class="game-card">
 
-      <div class="question-number" id="questionNumber"></div>
+      <div
+        class="question-number"
+        id="questionNumber">
+      </div>
 
       <div class="instruction">
         Put the words in the correct order.
       </div>
 
-      <div class="word-bank" id="wordBank"></div>
-
-      <div class="answer-label">Your sentence:</div>
-
-      <div class="answer-area" id="answerArea"></div>
-
-      <div class="buttons">
-        <button class="check-btn" onclick="checkAnswer()">Check</button>
-        <button class="reset-btn" onclick="resetQuestion()">Reset</button>
-        <button class="next-btn" onclick="nextQuestion()">Next</button>
+      <div
+        class="word-bank"
+        id="wordBank">
       </div>
 
-      <div class="feedback" id="feedback"></div>
-      <div class="score" id="score"></div>
+      <div class="answer-label">
+        Your sentence:
+      </div>
+
+      <div
+        class="answer-area"
+        id="answerArea">
+      </div>
+
+      <div class="buttons">
+
+        <button
+          class="check-btn"
+          onclick="checkAnswer()">
+          Check
+        </button>
+
+        <button
+          class="reset-btn"
+          onclick="resetQuestion()">
+          Reset
+        </button>
+
+        <button
+          class="next-btn"
+          onclick="nextQuestion()">
+          Next
+        </button>
+
+      </div>
+
+      <div
+        class="feedback"
+        id="feedback">
+      </div>
+
+      <div
+        class="score"
+        id="score">
+      </div>
 
     </div>
-  </div>
+
+  </main>
+
 
   <script>
+
     const questions = [
       ["I", "like", "playing", "football", "after", "school."],
+
       ["She", "usually", "reads", "books", "at", "night."],
+
       ["We", "are", "learning", "English", "today."],
+
       ["My", "brother", "doesn't", "like", "cooking."],
+
       ["They", "went", "to", "the", "park", "yesterday."],
+
       ["I", "want", "to", "learn", "how", "to", "swim."],
+
       ["He", "plays", "badminton", "with", "his", "friends."],
+
       ["My", "favorite", "subject", "is", "English."],
+
       ["We", "should", "exercise", "every", "day."],
+
       ["She", "is", "going", "to", "visit", "her", "grandmother."]
     ];
 
-    let currentQuestion = 0;
-    let score = 0;
-    let currentWords = [];
 
-    const wordBank = document.getElementById("wordBank");
-    const answerArea = document.getElementById("answerArea");
-    const feedback = document.getElementById("feedback");
-    const scoreDisplay = document.getElementById("score");
-    const questionNumber = document.getElementById("questionNumber");
+    let currentQuestion = 0;
+
+    let score = 0;
+
+    let answeredCorrectly = false;
+
+
+    const wordBank =
+      document.getElementById("wordBank");
+
+    const answerArea =
+      document.getElementById("answerArea");
+
+    const feedback =
+      document.getElementById("feedback");
+
+    const scoreDisplay =
+      document.getElementById("score");
+
+    const questionNumber =
+      document.getElementById("questionNumber");
+
 
     function shuffle(array) {
-      return [...array].sort(() => Math.random() - 0.5);
+
+      const newArray = [...array];
+
+      for (
+        let i = newArray.length - 1;
+        i > 0;
+        i--
+      ) {
+
+        const j =
+          Math.floor(Math.random() * (i + 1));
+
+        [
+          newArray[i],
+          newArray[j]
+        ] = [
+          newArray[j],
+          newArray[i]
+        ];
+
+      }
+
+      return newArray;
     }
 
+
+    function createWord(word) {
+
+      const wordElement =
+        document.createElement("div");
+
+      wordElement.className = "word";
+
+      wordElement.textContent = word;
+
+
+      wordElement.addEventListener(
+        "click",
+        function () {
+
+          if (
+            wordElement.parentElement === wordBank
+          ) {
+
+            answerArea.appendChild(wordElement);
+
+          } else {
+
+            wordBank.appendChild(wordElement);
+
+          }
+
+        }
+      );
+
+
+      return wordElement;
+    }
+
+
     function loadQuestion() {
-      feedback.textContent = "";
-      answerArea.innerHTML = "";
+
       wordBank.innerHTML = "";
 
-      currentWords = shuffle(questions[currentQuestion]);
+      answerArea.innerHTML = "";
+
+      feedback.textContent = "";
+
+      answeredCorrectly = false;
+
 
       questionNumber.textContent =
-        `Question ${currentQuestion + 1} of ${questions.length}`;
+        "Question " +
+        (currentQuestion + 1) +
+        " of " +
+        questions.length;
 
-      currentWords.forEach(word => {
-        const wordElement = createWordElement(word);
-        wordBank.appendChild(wordElement);
-      });
+
+      const shuffledWords =
+        shuffle(questions[currentQuestion]);
+
+
+      shuffledWords.forEach(
+        function(word) {
+
+          wordBank.appendChild(
+            createWord(word)
+          );
+
+        }
+      );
+
 
       updateScore();
     }
 
-    function createWordElement(word) {
-      const div = document.createElement("div");
-      div.className = "word";
-      div.textContent = word;
-
-      div.addEventListener("click", function () {
-        if (div.parentElement === wordBank) {
-          answerArea.appendChild(div);
-        } else {
-          wordBank.appendChild(div);
-        }
-      });
-
-      return div;
-    }
 
     function checkAnswer() {
-      const answerWords = [...answerArea.children]
-        .map(el => el.textContent);
 
-      const correctWords = questions[currentQuestion];
+      const selectedWords =
+        Array.from(
+          answerArea.children
+        ).map(
+          function(element) {
+            return element.textContent;
+          }
+        );
 
-      if (answerWords.length !== correctWords.length) {
-        feedback.textContent = "⚠️ Use all the words first.";
-        feedback.style.color = "#f59e0b";
+
+      if (
+        selectedWords.length !==
+        questions[currentQuestion].length
+      ) {
+
+        feedback.textContent =
+          "⚠️ Use all the words first.";
+
+        feedback.style.color =
+          "#f59e0b";
+
         return;
       }
 
-      const userAnswer = answerWords.join(" ");
-      const correctAnswer = correctWords.join(" ");
 
-      if (userAnswer === correctAnswer) {
-        feedback.textContent = "✅ Correct! Great job!";
-        feedback.style.color = "#16a34a";
+      const studentSentence =
+        selectedWords.join(" ");
 
-        if (!answerArea.dataset.correct) {
+      const correctSentence =
+        questions[currentQuestion].join(" ");
+
+
+      if (
+        studentSentence === correctSentence
+      ) {
+
+        feedback.textContent =
+          "✅ Correct! Great job!";
+
+        feedback.style.color =
+          "#16a34a";
+
+
+        if (!answeredCorrectly) {
+
           score++;
-          answerArea.dataset.correct = "true";
+
+          answeredCorrectly = true;
+
+          updateScore();
+
         }
 
-        updateScore();
       } else {
-        feedback.textContent = "❌ Not quite. Try again!";
-        feedback.style.color = "#dc2626";
+
+        feedback.textContent =
+          "❌ Not quite. Try again!";
+
+        feedback.style.color =
+          "#dc2626";
+
       }
+
     }
+
 
     function resetQuestion() {
-      answerArea.dataset.correct = "";
+
       loadQuestion();
+
     }
+
 
     function nextQuestion() {
+
       currentQuestion++;
 
-      if (currentQuestion >= questions.length) {
+
+      if (
+        currentQuestion >= questions.length
+      ) {
+
         currentQuestion = 0;
+
       }
 
-      answerArea.dataset.correct = "";
+
       loadQuestion();
+
     }
+
 
     function updateScore() {
-      scoreDisplay.textContent = `Score: ${score}`;
+
+      scoreDisplay.textContent =
+        "Score: " + score;
+
     }
 
+
     loadQuestion();
+
   </script>
 
 </body>
+
 </html>
