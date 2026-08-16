@@ -3,423 +3,140 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Ash's Classroom</title>
-
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #222;
-      line-height: 1.6;
-    }
-
-    header {
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
-      color: white;
-      padding: 70px 20px;
-      text-align: center;
-    }
-
-    header h1 {
-      font-size: 3rem;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 1.2rem;
-      max-width: 700px;
-      margin: auto;
-    }
-
-    nav {
-      background: white;
-      padding: 18px;
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-      flex-wrap: wrap;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-    }
-
-    nav a:hover {
-      color: #4f46e5;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 50px 20px;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 35px;
-    }
-
-    .section-title h2 {
-      font-size: 2.2rem;
-      margin-bottom: 8px;
-    }
-
-    .section-title p {
-      color: #666;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 25px;
-    }
-
-    .card-link {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
-
-    .card {
-      background: white;
-      padding: 30px 20px;
-      border-radius: 16px;
-      text-align: center;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-      transition: 0.3s;
-      cursor: pointer;
-      height: 100%;
-    }
-
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-    }
-
-    .icon {
-      font-size: 3rem;
-      margin-bottom: 15px;
-    }
-
-    .card h3 {
-      margin-bottom: 10px;
-      font-size: 1.4rem;
-    }
-
-    .card p {
-      color: #666;
-      font-size: 0.95rem;
-    }
-
-    .coming-soon-card {
-      opacity: 0.7;
-      cursor: default;
-    }
-
-    .coming-soon-card:hover {
-      transform: none;
-    }
-
-    .games-section {
-      background: white;
-    }
-
-    .coming-soon {
-      margin-top: 45px;
-      text-align: center;
-      background: #ede9fe;
-      padding: 25px;
-      border-radius: 16px;
-    }
-
-    footer {
-      background: #111827;
-      color: white;
-      text-align: center;
-      padding: 25px 15px;
-      margin-top: 50px;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f4f7fb; color: #222; line-height: 1.6; }
+    header { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; padding: 70px 20px; text-align: center; }
+    header h1 { font-size: 3rem; margin-bottom: 10px; }
+    header p { font-size: 1.2rem; max-width: 700px; margin: auto; }
+    nav { background: white; padding: 18px; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 10; }
+    nav a { text-decoration: none; color: #333; font-weight: bold; }
+    nav a:hover { color: #4f46e5; }
+    .container { max-width: 1100px; margin: auto; padding: 50px 20px; }
+    .section-title { text-align: center; margin-bottom: 35px; }
+    .section-title h2 { font-size: 2.2rem; margin-bottom: 8px; }
+    .section-title p { color: #666; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 25px; }
+    .card-link { text-decoration: none; color: inherit; display: block; }
+    .card { background: white; padding: 30px 20px; border-radius: 16px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.08); transition: 0.3s; cursor: pointer; height: 100%; }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
+    .icon { font-size: 3rem; margin-bottom: 15px; }
+    .card h3 { margin-bottom: 10px; font-size: 1.4rem; }
+    .card p { color: #666; font-size: 0.95rem; }
+    .coming-soon-card { opacity: 0.7; cursor: default; }
+    .coming-soon-card:hover { transform: none; }
+    .games-section { background: white; }
+    .coming-soon { margin-top: 45px; text-align: center; background: #ede9fe; padding: 25px; border-radius: 16px; }
+    footer { background: #111827; color: white; text-align: center; padding: 25px 15px; margin-top: 50px; }
     @media (max-width: 600px) {
-      header h1 {
-        font-size: 2.2rem;
-      }
-
-      header p {
-        font-size: 1rem;
-      }
-
-      nav {
-        gap: 15px;
-      }
+      header h1 { font-size: 2.2rem; }
+      header p { font-size: 1rem; }
+      nav { gap: 15px; }
     }
   </style>
 </head>
-
 <body>
 
-  <header>
-    <h1>🎓 Ash's Classroom</h1>
+<header>
+  <h1>🎓 Ash's Classroom</h1>
+  <p>Fun English games, speaking activities, grammar practice, vocabulary challenges and IELTS resources.</p>
+</header>
 
-    <p>
-      Fun English games, speaking activities, grammar practice,
-      vocabulary challenges and IELTS resources.
-    </p>
-  </header>
+<nav>
+  <a href="#games">Games</a>
+  <a href="#speaking">Speaking</a>
+  <a href="#grammar">Grammar</a>
+  <a href="#vocabulary">Vocabulary</a>
+  <a href="#ielts">IELTS</a>
+</nav>
 
+<main>
+  <section class="container" id="games">
+    <div class="section-title">
+      <h2>🎮 Classroom Games</h2>
+      <p>Interactive games for practicing English in class.</p>
+    </div>
 
-  <nav>
-    <a href="#games">Games</a>
-    <a href="#speaking">Speaking</a>
-    <a href="#grammar">Grammar</a>
-    <a href="#vocabulary">Vocabulary</a>
-    <a href="#ielts">IELTS</a>
-  </nav>
+    <div class="cards">
 
+      <a href="arrange-sentence.html" class="card-link">
+        <div class="card">
+          <div class="icon">🧩</div>
+          <h3>Arrange the Sentence</h3>
+          <p>Catch the moving words and put them in the correct order.</p>
+        </div>
+      </a>
 
-  <main>
+      <a href="emoji-challenge.html" class="card-link">
+        <div class="card">
+          <div class="icon">😀</div>
+          <h3>Emoji Word Challenge</h3>
+          <p>Guess single words, compound words and idioms from picture clues.</p>
+        </div>
+      </a>
 
-    <!-- CLASSROOM GAMES -->
+      <a href="vocabulary-race.html" class="card-link">
+        <div class="card">
+          <div class="icon">⚡</div>
+          <h3>Vocabulary Race</h3>
+          <p>Race against the clock and choose the correct vocabulary.</p>
+        </div>
+      </a>
 
-    <section class="container" id="games">
-
-      <div class="section-title">
-        <h2>🎮 Classroom Games</h2>
-        <p>Interactive games for practicing English in class.</p>
+      <div class="card coming-soon-card">
+        <div class="icon">🎯</div>
+        <h3>Category Challenge</h3>
+        <p>Think quickly and write a word that nobody else chooses.</p>
       </div>
 
+    </div>
+  </section>
+
+  <section class="games-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>📚 English Practice</h2>
+        <p>Choose the skill you want to practice.</p>
+      </div>
 
       <div class="cards">
-
-        <!-- ARRANGE THE SENTENCE -->
-
-        <a href="arrange-sentence.html" class="card-link">
-
-          <div class="card">
-
-            <div class="icon">
-              🧩
-            </div>
-
-            <h3>
-              Arrange the Sentence
-            </h3>
-
-            <p>
-              Catch the moving words and put them in the correct order.
-            </p>
-
-          </div>
-
-        </a>
-
-
-        <!-- EMOJI CHALLENGE -->
-
-        <a href="emoji-challenge.html" class="card-link">
-
-          <div class="card">
-
-            <div class="icon">
-              😀
-            </div>
-
-            <h3>
-              Emoji Word Challenge
-            </h3>
-
-            <p>
-              Guess single words, compound words and idioms from picture clues.
-            </p>
-
-          </div>
-
-        </a>
-
-
-        <!-- VOCABULARY RACE -->
-
-        <div class="card coming-soon-card">
-
-          <div class="icon">
-            ⚡
-          </div>
-
-          <h3>
-            Vocabulary Race
-          </h3>
-
-          <p>
-            Compete with classmates and find the correct vocabulary.
-          </p>
-
+        <div class="card" id="speaking">
+          <div class="icon">🗣️</div>
+          <h3>Speaking</h3>
+          <p>Questions, interviews, discussions and speaking challenges.</p>
         </div>
 
-
-        <!-- CATEGORY CHALLENGE -->
-
-        <div class="card coming-soon-card">
-
-          <div class="icon">
-            🎯
-          </div>
-
-          <h3>
-            Category Challenge
-          </h3>
-
-          <p>
-            Think quickly and write a word that nobody else chooses.
-          </p>
-
+        <div class="card" id="grammar">
+          <div class="icon">✏️</div>
+          <h3>Grammar</h3>
+          <p>Practice English grammar with simple interactive activities.</p>
         </div>
 
+        <div class="card" id="vocabulary">
+          <div class="icon">🧠</div>
+          <h3>Vocabulary</h3>
+          <p>Learn and review useful English words.</p>
+        </div>
+
+        <div class="card" id="ielts">
+          <div class="icon">🎓</div>
+          <h3>IELTS</h3>
+          <p>Speaking practice, vocabulary and IELTS preparation.</p>
+        </div>
       </div>
 
-    </section>
-
-
-    <!-- ENGLISH PRACTICE -->
-
-    <section class="games-section">
-
-      <div class="container">
-
-        <div class="section-title">
-
-          <h2>
-            📚 English Practice
-          </h2>
-
-          <p>
-            Choose the skill you want to practice.
-          </p>
-
-        </div>
-
-
-        <div class="cards">
-
-
-          <!-- SPEAKING -->
-
-          <div class="card" id="speaking">
-
-            <div class="icon">
-              🗣️
-            </div>
-
-            <h3>
-              Speaking
-            </h3>
-
-            <p>
-              Questions, interviews, discussions and speaking challenges.
-            </p>
-
-          </div>
-
-
-          <!-- GRAMMAR -->
-
-          <div class="card" id="grammar">
-
-            <div class="icon">
-              ✏️
-            </div>
-
-            <h3>
-              Grammar
-            </h3>
-
-            <p>
-              Practice English grammar with simple interactive activities.
-            </p>
-
-          </div>
-
-
-          <!-- VOCABULARY -->
-
-          <div class="card" id="vocabulary">
-
-            <div class="icon">
-              🧠
-            </div>
-
-            <h3>
-              Vocabulary
-            </h3>
-
-            <p>
-              Learn and review useful English words.
-            </p>
-
-          </div>
-
-
-          <!-- IELTS -->
-
-          <div class="card" id="ielts">
-
-            <div class="icon">
-              🎓
-            </div>
-
-            <h3>
-              IELTS
-            </h3>
-
-            <p>
-              Speaking practice, vocabulary and IELTS preparation.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="coming-soon">
-
-          <h3>
-            🚀 More activities coming soon
-          </h3>
-
-          <p>
-            New games and classroom activities will be added regularly.
-          </p>
-
-        </div>
-
-
+      <div class="coming-soon">
+        <h3>🚀 More activities coming soon</h3>
+        <p>New games and classroom activities will be added regularly.</p>
       </div>
+    </div>
+  </section>
+</main>
 
-    </section>
-
-  </main>
-
-
-  <footer>
-
-    <p>
-      © 2026 Ash's Classroom | Learn • Play • Practice
-    </p>
-
-  </footer>
-
+<footer>
+  <p>© 2026 Ash's Classroom | Learn • Play • Practice</p>
+</footer>
 
 </body>
 </html>
