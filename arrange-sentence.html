@@ -81,9 +81,18 @@
       margin-bottom: 25px;
     }
 
-    .word-bank,
+    .word-bank {
+      position: relative;
+      height: 220px;
+      border: 3px dashed #c4b5fd;
+      border-radius: 16px;
+      background: #f5f3ff;
+      margin-bottom: 25px;
+      overflow: hidden;
+    }
+
     .answer-area {
-      min-height: 110px;
+      min-height: 120px;
       border: 3px dashed #c4b5fd;
       border-radius: 16px;
       padding: 20px;
@@ -92,14 +101,6 @@
       gap: 12px;
       align-items: center;
       justify-content: center;
-    }
-
-    .word-bank {
-      background: #f5f3ff;
-      margin-bottom: 25px;
-    }
-
-    .answer-area {
       background: #fafafa;
     }
 
@@ -117,7 +118,12 @@
       font-size: 1.2rem;
       cursor: pointer;
       user-select: none;
-      transition: 0.2s;
+      transition: transform 0.15s;
+      white-space: nowrap;
+    }
+
+    .word.moving {
+      position: absolute;
     }
 
     .word:hover {
@@ -180,9 +186,13 @@
         padding: 20px;
       }
 
+      .word-bank {
+        height: 250px;
+      }
+
       .word {
         font-size: 1rem;
-        padding: 12px 15px;
+        padding: 11px 14px;
       }
     }
   </style>
@@ -192,7 +202,7 @@
 
   <header>
     <h1>🧩 Arrange the Sentence</h1>
-    <p>Click the words in the correct order.</p>
+    <p>Catch the moving words and put them in the correct order.</p>
   </header>
 
   <div class="top-bar">
@@ -264,38 +274,27 @@
 
   </main>
 
-
   <script>
 
     const questions = [
       ["I", "like", "playing", "football", "after", "school."],
-
       ["She", "usually", "reads", "books", "at", "night."],
-
       ["We", "are", "learning", "English", "today."],
-
       ["My", "brother", "doesn't", "like", "cooking."],
-
       ["They", "went", "to", "the", "park", "yesterday."],
-
       ["I", "want", "to", "learn", "how", "to", "swim."],
-
       ["He", "plays", "badminton", "with", "his", "friends."],
-
       ["My", "favorite", "subject", "is", "English."],
-
       ["We", "should", "exercise", "every", "day."],
-
       ["She", "is", "going", "to", "visit", "her", "grandmother."]
     ];
 
-
     let currentQuestion = 0;
-
     let score = 0;
-
     let answeredCorrectly = false;
 
+    let movingWords = [];
+    let animationId = null;
 
     const wordBank =
       document.getElementById("wordBank");
@@ -314,15 +313,9 @@
 
 
     function shuffle(array) {
-
       const newArray = [...array];
 
-      for (
-        let i = newArray.length - 1;
-        i > 0;
-        i--
-      ) {
-
+      for (let i = newArray.length - 1; i > 0; i--) {
         const j =
           Math.floor(Math.random() * (i + 1));
 
@@ -333,57 +326,229 @@
           newArray[j],
           newArray[i]
         ];
-
       }
 
       return newArray;
     }
 
 
-    function createWord(word) {
+    function randomSpeed() {
+      let speed = 0;
 
-      const wordElement =
+      while (
+        speed > -0.6 &&
+        speed < 0.6
+      ) {
+        speed =
+          (Math.random() * 2.4) - 1.2;
+      }
+
+      return speed;
+    }
+
+
+    function createMovingWord(word) {
+
+      const element =
         document.createElement("div");
 
-      wordElement.className = "word";
+      element.className =
+        "word moving";
 
-      wordElement.textContent = word;
+      element.textContent = word;
+
+      wordBank.appendChild(element);
+
+      const bankWidth =
+        wordBank.clientWidth;
+
+      const bankHeight =
+        wordBank.clientHeight;
+
+      const maxX =
+        Math.max(
+          0,
+          bankWidth - element.offsetWidth
+        );
+
+      const maxY =
+        Math.max(
+          0,
+          bankHeight - element.offsetHeight
+        );
+
+      const item = {
+        element: element,
+        x: Math.random() * maxX,
+        y: Math.random() * maxY,
+        dx: randomSpeed(),
+        dy: randomSpeed(),
+        active: true
+      };
+
+      element.style.left =
+        item.x + "px";
+
+      element.style.top =
+        item.y + "px";
 
 
-      wordElement.addEventListener(
+      element.addEventListener(
         "click",
         function () {
 
           if (
-            wordElement.parentElement === wordBank
+            element.parentElement === wordBank
           ) {
 
-            answerArea.appendChild(wordElement);
+            item.active = false;
+
+            element.classList.remove("moving");
+
+            element.style.left = "";
+            element.style.top = "";
+
+            answerArea.appendChild(element);
 
           } else {
 
-            wordBank.appendChild(wordElement);
+            answerArea.removeChild(element);
 
+            wordBank.appendChild(element);
+
+            element.classList.add("moving");
+
+            item.active = true;
+
+            const newMaxX =
+              wordBank.clientWidth -
+              element.offsetWidth;
+
+            const newMaxY =
+              wordBank.clientHeight -
+              element.offsetHeight;
+
+            item.x =
+              Math.random() *
+              Math.max(0, newMaxX);
+
+            item.y =
+              Math.random() *
+              Math.max(0, newMaxY);
+
+            item.dx =
+              randomSpeed();
+
+            item.dy =
+              randomSpeed();
+
+            element.style.left =
+              item.x + "px";
+
+            element.style.top =
+              item.y + "px";
           }
 
         }
       );
 
+      movingWords.push(item);
+    }
 
-      return wordElement;
+
+    function animateWords() {
+
+      movingWords.forEach(
+        function (item) {
+
+          if (!item.active) {
+            return;
+          }
+
+          const element =
+            item.element;
+
+          if (
+            element.parentElement !== wordBank
+          ) {
+            return;
+          }
+
+          const bankWidth =
+            wordBank.clientWidth;
+
+          const bankHeight =
+            wordBank.clientHeight;
+
+          const wordWidth =
+            element.offsetWidth;
+
+          const wordHeight =
+            element.offsetHeight;
+
+          item.x += item.dx;
+          item.y += item.dy;
+
+          if (item.x <= 0) {
+            item.x = 0;
+            item.dx *= -1;
+          }
+
+          if (
+            item.x + wordWidth >=
+            bankWidth
+          ) {
+            item.x =
+              bankWidth - wordWidth;
+
+            item.dx *= -1;
+          }
+
+          if (item.y <= 0) {
+            item.y = 0;
+            item.dy *= -1;
+          }
+
+          if (
+            item.y + wordHeight >=
+            bankHeight
+          ) {
+            item.y =
+              bankHeight - wordHeight;
+
+            item.dy *= -1;
+          }
+
+          element.style.left =
+            item.x + "px";
+
+          element.style.top =
+            item.y + "px";
+        }
+      );
+
+      animationId =
+        requestAnimationFrame(
+          animateWords
+        );
     }
 
 
     function loadQuestion() {
 
-      wordBank.innerHTML = "";
+      if (animationId) {
+        cancelAnimationFrame(
+          animationId
+        );
+      }
 
+      movingWords = [];
+
+      wordBank.innerHTML = "";
       answerArea.innerHTML = "";
 
       feedback.textContent = "";
-
       answeredCorrectly = false;
-
 
       questionNumber.textContent =
         "Question " +
@@ -391,23 +556,20 @@
         " of " +
         questions.length;
 
-
       const shuffledWords =
-        shuffle(questions[currentQuestion]);
-
+        shuffle(
+          questions[currentQuestion]
+        );
 
       shuffledWords.forEach(
-        function(word) {
-
-          wordBank.appendChild(
-            createWord(word)
-          );
-
+        function (word) {
+          createMovingWord(word);
         }
       );
 
-
       updateScore();
+
+      animateWords();
     }
 
 
@@ -417,11 +579,10 @@
         Array.from(
           answerArea.children
         ).map(
-          function(element) {
+          function (element) {
             return element.textContent;
           }
         );
-
 
       if (
         selectedWords.length !==
@@ -437,13 +598,11 @@
         return;
       }
 
-
       const studentSentence =
         selectedWords.join(" ");
 
       const correctSentence =
         questions[currentQuestion].join(" ");
-
 
       if (
         studentSentence === correctSentence
@@ -455,15 +614,10 @@
         feedback.style.color =
           "#16a34a";
 
-
         if (!answeredCorrectly) {
-
           score++;
-
           answeredCorrectly = true;
-
           updateScore();
-
         }
 
       } else {
@@ -475,14 +629,11 @@
           "#dc2626";
 
       }
-
     }
 
 
     function resetQuestion() {
-
       loadQuestion();
-
     }
 
 
@@ -490,18 +641,13 @@
 
       currentQuestion++;
 
-
       if (
         currentQuestion >= questions.length
       ) {
-
         currentQuestion = 0;
-
       }
 
-
       loadQuestion();
-
     }
 
 
