@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulary Race | Ash's Classroom</title>
+<style>
+:root {
+  --bg:#f4f7fb; --panel:#fff; --text:#1f2937; --muted:#6b7280;
+  --primary:#4f46e5; --primary2:#7c3aed; --green:#16a34a;
+  --red:#dc2626; --orange:#f59e0b; --border:#e5e7eb;
+  --shadow:0 14px 35px rgba(31,41,55,.12);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Arial,sans-serif;color:var(--text);min-height:100vh;
+  background:linear-gradient(135deg,#eef2ff,#f5f3ff);
+}
+.page{width:min(1180px,calc(100% - 28px));margin:auto;padding:24px 0 40px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}
+.title-wrap{display:flex;align-items:center;gap:14px}
+.logo{width:58px;height:58px;border-radius:18px;background:linear-gradient(135deg,var(--primary),var(--primary2));display:grid;place-items:center;color:white;font-size:30px;box-shadow:var(--shadow)}
+h1{margin:0;font-size:clamp(1.8rem,4vw,2.8rem)}
+.subtitle{margin:6px 0 0;color:var(--muted)}
+.btn{border:1px solid var(--border);background:white;color:var(--text);padding:11px 16px;border-radius:12px;font-weight:800;cursor:pointer}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--primary);color:white;border-color:var(--primary)}
+.btn-green{background:var(--green);color:white;border-color:var(--green)}
+.btn-orange{background:#fff7e7;color:#9a5a00;border-color:#f1ca87}
+.home-link{text-decoration:none;display:inline-flex}
+.mode-screen{background:white;border:1px solid var(--border);border-radius:24px;padding:30px;box-shadow:var(--shadow)}
+.mode-title{text-align:center;margin-bottom:24px}
+.mode-title h2{font-size:2rem;margin:0 0 8px}
+.mode-title p{margin:0;color:var(--muted)}
+.mode-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.mode-card{border:2px solid var(--border);background:linear-gradient(180deg,#fff,#fafaff);border-radius:20px;padding:25px 16px;text-align:center;cursor:pointer;transition:.2s}
+.mode-card:hover{transform:translateY(-5px);border-color:#b8bdfd;box-shadow:0 10px 28px rgba(79,70,229,.12)}
+.mode-icon{font-size:3rem}
+.mode-card h3{margin:10px 0 6px}
+.mode-card p{color:var(--muted);font-size:.92rem;min-height:42px}
+.badge{display:inline-block;background:#eef2ff;color:var(--primary);font-weight:900;padding:6px 10px;border-radius:999px}
+.game-screen{display:none}
+.dashboard{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+.stat{background:white;border:1px solid var(--border);border-radius:16px;padding:14px;text-align:center;box-shadow:0 8px 22px rgba(31,41,55,.07)}
+.stat-label{font-size:.78rem;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.05em}
+.stat-value{font-size:1.4rem;font-weight:950;margin-top:4px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:16px}
+.panel{background:white;border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow)}
+.game-panel{padding:20px}
+.question-card{background:linear-gradient(180deg,#fafbff,#f2f5ff);border:1px solid #dce2ff;border-radius:18px;padding:24px;text-align:center}
+.category-pill{display:inline-block;background:#e9edff;color:#4c51bf;border:1px solid #cfd5ff;border-radius:999px;padding:7px 12px;font-weight:900;font-size:.84rem;margin-bottom:15px}
+.prompt{font-size:clamp(1.35rem,3vw,2rem);font-weight:900;line-height:1.35;min-height:90px;display:flex;align-items:center;justify-content:center;padding:8px}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.option{border:2px solid var(--border);background:white;border-radius:15px;padding:16px;font-size:1.08rem;font-weight:850;cursor:pointer;transition:.15s}
+.option:hover{border-color:#aab1ff;transform:translateY(-2px)}
+.option.correct{background:#ecfdf5;border-color:#34d399;color:#065f46}
+.option.wrong{background:#fef2f2;border-color:#f87171;color:#991b1b}
+.option:disabled{cursor:default}
+.feedback{min-height:42px;margin-top:16px;font-size:1.2rem;font-weight:900}
+.hint-box{display:none;margin-top:10px;background:#fff7e7;border:1px solid #f2cf8e;color:#8a5705;border-radius:13px;padding:12px;text-align:left}
+.actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:14px}
+.sidebar{display:grid;gap:14px}
+.side-panel{padding:16px}
+.side-panel h2{font-size:1rem;margin:0 0 12px}
+.score-team{background:#fafbff;border:1px solid var(--border);border-radius:15px;padding:12px;margin-bottom:10px}
+.score-team:last-child{margin-bottom:0}
+.team-name{font-weight:900}
+.big-score{font-size:1.45rem;font-weight:950;margin:5px 0 9px}
+.score-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.timer-settings{display:grid;gap:8px}
+select{width:100%;border:1px solid var(--border);border-radius:11px;padding:9px;background:white}
+.timer-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rules{color:var(--muted);line-height:1.55;margin:0;font-size:.9rem}
+.timer-warning{color:var(--red);animation:pulse .7s infinite alternate}
+@keyframes pulse{from{opacity:1;transform:scale(1)}to{opacity:.45;transform:scale(1.08)}}
+.footer{text-align:center;color:var(--muted);font-size:.84rem;margin-top:20px}
+@media(max-width:950px){
+  .mode-grid{grid-template-columns:repeat(2,1fr)}
+  .layout{grid-template-columns:1fr}
+  .sidebar{grid-template-columns:repeat(3,1fr)}
+  .dashboard{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:680px){
+  .topbar{flex-direction:column;align-items:flex-start}
+  .mode-grid{grid-template-columns:1fr}
+  .dashboard{grid-template-columns:repeat(2,1fr)}
+  .sidebar{grid-template-columns:1fr}
+  .options{grid-template-columns:1fr}
+  .game-panel{padding:13px}
+  .question-card{padding:15px}
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <header class="topbar">
+    <div class="title-wrap">
+      <div class="logo">⚡</div>
+      <div>
+        <h1>Vocabulary Race</h1>
+        <p class="subtitle">Read fast, think fast, choose the correct word.</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a href="index.html" class="btn home-link">← Home</a>
+      <button id="fullscreenBtn" class="btn">Full Screen</button>
+    </div>
+  </header>
+
+  <section id="modeScreen" class="mode-screen">
+    <div class="mode-title">
+      <h2>Choose a Level</h2>
+      <p>Each level has 20 randomized questions. Mixed Challenge uses all 60.</p>
+    </div>
+    <div class="mode-grid">
+      <button class="mode-card" data-level="A1">
+        <div class="mode-icon">🌱</div>
+        <h3>A1 Starter</h3>
+        <p>Everyday vocabulary and simple definitions.</p>
+        <span class="badge">20 questions</span>
+      </button>
+      <button class="mode-card" data-level="A2">
+        <div class="mode-icon">🚀</div>
+        <h3>A2 Builder</h3>
+        <p>Useful school, travel, leisure and daily-life words.</p>
+        <span class="badge">20 questions</span>
+      </button>
+      <button class="mode-card" data-level="B1">
+        <div class="mode-icon">🏆</div>
+        <h3>B1 Challenge</h3>
+        <p>More precise vocabulary for confident learners.</p>
+        <span class="badge">20 questions</span>
+      </button>
+      <button class="mode-card" data-level="Mixed">
+        <div class="mode-icon">🔥</div>
+        <h3>Mixed Race</h3>
+        <p>Random questions from all three levels.</p>
+        <span class="badge">60-question pool</span>
+      </button>
+    </div>
+  </section>
+
+  <section id="gameScreen" class="game-screen">
+    <section class="dashboard">
+      <article class="stat"><div class="stat-label">Level</div><div id="levelDisplay" class="stat-value">A1</div></article>
+      <article class="stat"><div class="stat-label">Question</div><div id="questionNumber" class="stat-value">1 / 20</div></article>
+      <article class="stat"><div class="stat-label">Team A</div><div id="scoreA" class="stat-value">0</div></article>
+      <article class="stat"><div class="stat-label">Team B</div><div id="scoreB" class="stat-value">0</div></article>
+      <article class="stat"><div class="stat-label">Timer</div><div id="timerDisplay" class="stat-value">20</div></article>
+    </section>
+
+    <section class="layout">
+      <section class="panel game-panel">
+        <div class="question-card">
+          <div id="categoryPill" class="category-pill">Everyday</div>
+          <div id="prompt" class="prompt"></div>
+
+          <div id="options" class="options"></div>
+
+          <div id="feedback" class="feedback"></div>
+          <div id="hintBox" class="hint-box"></div>
+
+          <div class="actions">
+            <button id="hintBtn" class="btn btn-orange">Hint</button>
+            <button id="nextBtn" class="btn btn-primary">Next Question</button>
+            <button id="restartBtn" class="btn">Restart Level</button>
+            <button id="changeLevelBtn" class="btn">Change Level</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <section class="panel side-panel">
+          <h2>Team Scores</h2>
+          <div class="score-team">
+            <div class="team-name">Team A</div>
+            <div id="teamAScoreLarge" class="big-score">0 points</div>
+            <div class="score-buttons">
+              <button id="teamAPlus" class="btn btn-green">+1</button>
+              <button id="teamAMinus" class="btn">−1</button>
+            </div>
+          </div>
+          <div class="score-team">
+            <div class="team-name">Team B</div>
+            <div id="teamBScoreLarge" class="big-score">0 points</div>
+            <div class="score-buttons">
+              <button id="teamBPlus" class="btn btn-green">+1</button>
+              <button id="teamBMinus" class="btn">−1</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel side-panel">
+          <h2>Timer</h2>
+          <div class="timer-settings">
+            <select id="timerSelect">
+              <option value="10">10 seconds</option>
+              <option value="15">15 seconds</option>
+              <option value="20" selected>20 seconds</option>
+              <option value="30">30 seconds</option>
+              <option value="45">45 seconds</option>
+            </select>
+            <div class="timer-controls">
+              <button id="startTimerBtn" class="btn btn-primary">Start</button>
+              <button id="pauseTimerBtn" class="btn">Pause</button>
+            </div>
+            <button id="resetTimerBtn" class="btn">Reset Timer</button>
+          </div>
+        </section>
+
+        <section class="panel side-panel">
+          <h2>How to Play</h2>
+          <p class="rules">
+            Divide the class into two teams. Show the question and start the timer.
+            The first team to give the correct answer earns a point. Students can also
+            click one of the four answers on the screen to check.
+          </p>
+        </section>
+      </aside>
+    </section>
+  </section>
+
+  <div class="footer">Ash's Classroom • Vocabulary Race</div>
+</main>
+
+<script>
+const questions = [
+  {
+    "level": "A1",
+    "category": "Everyday",
+    "prompt": "A place where you buy food and other things.",
+    "answer": "supermarket",
+    "options": [
+      "supermarket",
+      "hospital",
+      "library",
+      "station"
+    ],
+    "hint": "You usually use a shopping cart here."
+  },
+  {
+    "level": "A1",
+    "category": "Everyday",
+    "prompt": "The opposite of 'expensive'.",
+    "answer": "cheap",
+    "options": [
+      "cheap",
+      "heavy",
+      "quiet",
+      "slow"
+    ],
+    "hint": "It does not cost much money."
+  },
+  {
+    "level": "A1",
+    "category": "School",
+    "prompt": "You use this to write on paper.",
+    "answer": "pencil",
+    "options": [
+      "pencil",
+      "plate",
+      "pillow",
+      "ticket"
+    ],
+    "hint": "It is often made of wood."
+  },
+  {
+    "level": "A1",
+    "category": "School",
+    "prompt": "A person who teaches students.",
+    "answer": "teacher",
+    "options": [
+      "teacher",
+      "driver",
+      "chef",
+      "doctor"
+    ],
+    "hint": "You see this person in class."
+  },
+  {
+    "level": "A1",
+    "category": "Food",
+    "prompt": "A yellow fruit that monkeys are famous for eating.",
+    "answer": "banana",
+    "options": [
+      "banana",
+      "carrot",
+      "onion",
+      "potato"
+    ],
+    "hint": "It has a peel."
+  },
+  {
+    "level": "A1",
+    "category": "Home",
+    "prompt": "You sleep on this.",
+    "answer": "bed",
+    "options": [
+      "bed",
+      "desk",
+      "sink",
+      "shelf"
+    ],
+    "hint": "It is in a bedroom."
+  },
+  {
+    "level": "A1",
+    "category": "Transport",
+    "prompt": "A large road vehicle that carries many passengers.",
+    "answer": "bus",
+    "options": [
+      "bus",
+      "bike",
+      "boat",
+      "plane"
+    ],
+    "hint": "It stops at bus stops."
+  },
+  {
+    "level": "A1",
+    "category": "Weather",
+    "prompt": "When water falls from the sky.",
+    "answer": "rain",
+    "options": [
+      "rain",
+      "wind",
+      "snow",
+      "cloud"
+    ],
+    "hint": "You may need an umbrella."
+  },
+  {
+    "level": "A1",
+    "category": "Body",
+    "prompt": "You use these to see.",
+    "answer": "eyes",
+    "options": [
+      "eyes",
+      "ears",
+      "hands",
+      "feet"
+    ],
+    "hint": "They are on your face."
+  },
+  {
+    "level": "A1",
+    "category": "Clothes",
+    "prompt": "You wear these on your feet.",
+    "answer": "shoes",
+    "options": [
+      "shoes",
+      "gloves",
+      "hat",
+      "shirt"
+    ],
+    "hint": "You put socks inside them."
+  },
+  {
+    "level": "A1",
+    "category": "Animals",
+    "prompt": "An animal that says 'meow'.",
+    "answer": "cat",
+    "options": [
+      "cat",
+      "cow",
+      "duck",
+      "horse"
+    ],
+    "hint": "Many people keep it as a pet."
+  },
+  {
+    "level": "A1",
+    "category": "Time",
+    "prompt": "The day after Friday.",
+    "answer": "Saturday",
+    "options": [
+      "Saturday",
+      "Monday",
+      "Thursday",
+      "Tuesday"
+    ],
+    "hint": "It is usually part of the weekend."
+  },
+  {
+    "level": "A1",
+    "category": "Actions",
+    "prompt": "To move quickly using your legs.",
+    "answer": "run",
+    "options": [
+      "run",
+      "sleep",
+      "draw",
+      "cook"
+    ],
+    "hint": "It is faster than walking."
+  },
+  {
+    "level": "A1",
+    "category": "Feelings",
+    "prompt": "How you feel when something good happens.",
+    "answer": "happy",
+    "options": [
+      "happy",
+      "angry",
+      "tired",
+      "hungry"
+    ],
+    "hint": "You may smile."
+  },
+  {
+    "level": "A1",
+    "category": "Places",
+    "prompt": "A place where you can borrow books.",
+    "answer": "library",
+    "options": [
+      "library",
+      "market",
+      "airport",
+      "garage"
+    ],
+    "hint": "It is usually quiet."
+  },
+  {
+    "level": "A1",
+    "category": "Food",
+    "prompt": "A drink made from water and tea leaves.",
+    "answer": "tea",
+    "options": [
+      "tea",
+      "rice",
+      "bread",
+      "soup"
+    ],
+    "hint": "People often drink it hot."
+  },
+  {
+    "level": "A1",
+    "category": "School",
+    "prompt": "You sit on this in class.",
+    "answer": "chair",
+    "options": [
+      "chair",
+      "door",
+      "window",
+      "board"
+    ],
+    "hint": "It usually has four legs."
+  },
+  {
+    "level": "A1",
+    "category": "Home",
+    "prompt": "You use this to open a locked door.",
+    "answer": "key",
+    "options": [
+      "key",
+      "cup",
+      "lamp",
+      "spoon"
+    ],
+    "hint": "It fits inside a lock."
+  },
+  {
+    "level": "A1",
+    "category": "Transport",
+    "prompt": "A vehicle with two wheels and pedals.",
+    "answer": "bicycle",
+    "options": [
+      "bicycle",
+      "train",
+      "taxi",
+      "ship"
+    ],
+    "hint": "You can ride it without fuel."
+  },
+  {
+    "level": "A1",
+    "category": "Nature",
+    "prompt": "A very large area of salt water.",
+    "answer": "ocean",
+    "options": [
+      "ocean",
+      "forest",
+      "mountain",
+      "field"
+    ],
+    "hint": "It is bigger than a sea."
+  },
+  {
+    "level": "A2",
+    "category": "Everyday",
+    "prompt": "To choose one thing because you like it more than another.",
+    "answer": "prefer",
+    "options": [
+      "prefer",
+      "borrow",
+      "invite",
+      "repair"
+    ],
+    "hint": "Example: I ___ tea to coffee."
+  },
+  {
+    "level": "A2",
+    "category": "Travel",
+    "prompt": "A place where you wait for and catch a plane.",
+    "answer": "airport",
+    "options": [
+      "airport",
+      "harbor",
+      "stadium",
+      "factory"
+    ],
+    "hint": "You need a boarding pass here."
+  },
+  {
+    "level": "A2",
+    "category": "Health",
+    "prompt": "Feeling that you need to drink something.",
+    "answer": "thirsty",
+    "options": [
+      "thirsty",
+      "sleepy",
+      "excited",
+      "worried"
+    ],
+    "hint": "Water can help."
+  },
+  {
+    "level": "A2",
+    "category": "Leisure",
+    "prompt": "An activity you do regularly for enjoyment in your free time.",
+    "answer": "hobby",
+    "options": [
+      "hobby",
+      "journey",
+      "habit",
+      "lesson"
+    ],
+    "hint": "Drawing or playing chess can be one."
+  },
+  {
+    "level": "A2",
+    "category": "People",
+    "prompt": "A person who lives near your home.",
+    "answer": "neighbor",
+    "options": [
+      "neighbor",
+      "passenger",
+      "customer",
+      "visitor"
+    ],
+    "hint": "They may live next door."
+  },
+  {
+    "level": "A2",
+    "category": "Technology",
+    "prompt": "A secret word used to access an account.",
+    "answer": "password",
+    "options": [
+      "password",
+      "website",
+      "screen",
+      "charger"
+    ],
+    "hint": "You should not share it."
+  },
+  {
+    "level": "A2",
+    "category": "School",
+    "prompt": "To look at information again before a test.",
+    "answer": "review",
+    "options": [
+      "review",
+      "deliver",
+      "celebrate",
+      "collect"
+    ],
+    "hint": "Students do this before exams."
+  },
+  {
+    "level": "A2",
+    "category": "Food",
+    "prompt": "Food that is good for your body.",
+    "answer": "healthy",
+    "options": [
+      "healthy",
+      "crowded",
+      "modern",
+      "noisy"
+    ],
+    "hint": "Fruit and vegetables are usually described this way."
+  },
+  {
+    "level": "A2",
+    "category": "Weather",
+    "prompt": "A sudden bright light in the sky during a storm.",
+    "answer": "lightning",
+    "options": [
+      "lightning",
+      "fog",
+      "breeze",
+      "shadow"
+    ],
+    "hint": "Thunder often follows it."
+  },
+  {
+    "level": "A2",
+    "category": "Travel",
+    "prompt": "A short visit to another place and back again.",
+    "answer": "trip",
+    "options": [
+      "trip",
+      "route",
+      "traffic",
+      "ticket"
+    ],
+    "hint": "You might take one on the weekend."
+  },
+  {
+    "level": "A2",
+    "category": "Work",
+    "prompt": "A person who buys something from a shop or business.",
+    "answer": "customer",
+    "options": [
+      "customer",
+      "manager",
+      "farmer",
+      "pilot"
+    ],
+    "hint": "Shops serve this person."
+  },
+  {
+    "level": "A2",
+    "category": "Feelings",
+    "prompt": "Nervous or unhappy because you think something bad may happen.",
+    "answer": "worried",
+    "options": [
+      "worried",
+      "proud",
+      "relaxed",
+      "surprised"
+    ],
+    "hint": "You may feel this before an important test."
+  },
+  {
+    "level": "A2",
+    "category": "Actions",
+    "prompt": "To tell someone that something is a good idea or choice.",
+    "answer": "recommend",
+    "options": [
+      "recommend",
+      "remember",
+      "refuse",
+      "repeat"
+    ],
+    "hint": "Example: I ___ this movie."
+  },
+  {
+    "level": "A2",
+    "category": "Home",
+    "prompt": "A machine that keeps food cold.",
+    "answer": "refrigerator",
+    "options": [
+      "refrigerator",
+      "microwave",
+      "vacuum",
+      "washing machine"
+    ],
+    "hint": "Milk is usually kept inside it."
+  },
+  {
+    "level": "A2",
+    "category": "City",
+    "prompt": "A place where people can see paintings and other works of art.",
+    "answer": "gallery",
+    "options": [
+      "gallery",
+      "clinic",
+      "bakery",
+      "garage"
+    ],
+    "hint": "It often has exhibitions."
+  },
+  {
+    "level": "A2",
+    "category": "Shopping",
+    "prompt": "Money returned to you when you pay too much.",
+    "answer": "change",
+    "options": [
+      "change",
+      "receipt",
+      "sale",
+      "price"
+    ],
+    "hint": "You may get coins back."
+  },
+  {
+    "level": "A2",
+    "category": "School",
+    "prompt": "A piece of work students complete at home.",
+    "answer": "homework",
+    "options": [
+      "homework",
+      "uniform",
+      "subject",
+      "break"
+    ],
+    "hint": "Teachers often give it after class."
+  },
+  {
+    "level": "A2",
+    "category": "Nature",
+    "prompt": "Land that is very high, often with a peak.",
+    "answer": "mountain",
+    "options": [
+      "mountain",
+      "island",
+      "valley",
+      "desert"
+    ],
+    "hint": "People sometimes climb it."
+  },
+  {
+    "level": "A2",
+    "category": "Communication",
+    "prompt": "To say that you are sorry for something.",
+    "answer": "apologize",
+    "options": [
+      "apologize",
+      "announce",
+      "argue",
+      "agree"
+    ],
+    "hint": "You do this after making a mistake."
+  },
+  {
+    "level": "A2",
+    "category": "Sports",
+    "prompt": "A person who controls a sports game and makes sure players follow the rules.",
+    "answer": "referee",
+    "options": [
+      "referee",
+      "captain",
+      "coach",
+      "fan"
+    ],
+    "hint": "This person may use a whistle."
+  },
+  {
+    "level": "B1",
+    "category": "Communication",
+    "prompt": "To make something easier to understand by giving more details.",
+    "answer": "clarify",
+    "options": [
+      "clarify",
+      "combine",
+      "compare",
+      "complain"
+    ],
+    "hint": "Teachers may do this when instructions are confusing."
+  },
+  {
+    "level": "B1",
+    "category": "Work",
+    "prompt": "A person who applies for a job or position.",
+    "answer": "candidate",
+    "options": [
+      "candidate",
+      "colleague",
+      "employer",
+      "customer"
+    ],
+    "hint": "This person may attend an interview."
+  },
+  {
+    "level": "B1",
+    "category": "Travel",
+    "prompt": "A place where you stay temporarily while travelling.",
+    "answer": "accommodation",
+    "options": [
+      "accommodation",
+      "transportation",
+      "destination",
+      "reservation"
+    ],
+    "hint": "Hotels and hostels are examples."
+  },
+  {
+    "level": "B1",
+    "category": "Study",
+    "prompt": "The ability to focus your attention on something.",
+    "answer": "concentration",
+    "options": [
+      "concentration",
+      "confidence",
+      "communication",
+      "competition"
+    ],
+    "hint": "Noise can reduce it while studying."
+  },
+  {
+    "level": "B1",
+    "category": "Environment",
+    "prompt": "Materials that can be processed and used again.",
+    "answer": "recyclable",
+    "options": [
+      "recyclable",
+      "reliable",
+      "responsible",
+      "renewable"
+    ],
+    "hint": "Paper, glass, and some plastics can be this."
+  },
+  {
+    "level": "B1",
+    "category": "Feelings",
+    "prompt": "Very interested and excited about something.",
+    "answer": "enthusiastic",
+    "options": [
+      "enthusiastic",
+      "embarrassed",
+      "exhausted",
+      "independent"
+    ],
+    "hint": "Someone who is eager to join an activity may feel this way."
+  },
+  {
+    "level": "B1",
+    "category": "Technology",
+    "prompt": "To get a file or data from the internet onto your device.",
+    "answer": "download",
+    "options": [
+      "download",
+      "upload",
+      "install",
+      "browse"
+    ],
+    "hint": "The direction is from the internet to your device."
+  },
+  {
+    "level": "B1",
+    "category": "People",
+    "prompt": "Someone you work with.",
+    "answer": "colleague",
+    "options": [
+      "colleague",
+      "neighbor",
+      "relative",
+      "stranger"
+    ],
+    "hint": "You may see this person at your workplace."
+  },
+  {
+    "level": "B1",
+    "category": "Learning",
+    "prompt": "To become better at something through practice.",
+    "answer": "improve",
+    "options": [
+      "improve",
+      "include",
+      "increase",
+      "influence"
+    ],
+    "hint": "Your English can ___ with regular practice."
+  },
+  {
+    "level": "B1",
+    "category": "City",
+    "prompt": "Having too many people in one place.",
+    "answer": "crowded",
+    "options": [
+      "crowded",
+      "remote",
+      "peaceful",
+      "ancient"
+    ],
+    "hint": "A busy market can be this."
+  },
+  {
+    "level": "B1",
+    "category": "Money",
+    "prompt": "Money you regularly receive for doing a job.",
+    "answer": "salary",
+    "options": [
+      "salary",
+      "budget",
+      "profit",
+      "fee"
+    ],
+    "hint": "Employees usually receive this monthly."
+  },
+  {
+    "level": "B1",
+    "category": "Health",
+    "prompt": "To become well again after an illness or injury.",
+    "answer": "recover",
+    "options": [
+      "recover",
+      "prevent",
+      "protect",
+      "reduce"
+    ],
+    "hint": "Rest can help you do this."
+  },
+  {
+    "level": "B1",
+    "category": "Travel",
+    "prompt": "A detailed plan showing the places and activities of a trip.",
+    "answer": "itinerary",
+    "options": [
+      "itinerary",
+      "destination",
+      "souvenir",
+      "departure"
+    ],
+    "hint": "It may list what you will do each day."
+  },
+  {
+    "level": "B1",
+    "category": "Communication",
+    "prompt": "To persuade someone to believe or do something.",
+    "answer": "convince",
+    "options": [
+      "convince",
+      "confirm",
+      "consider",
+      "connect"
+    ],
+    "hint": "You try to change someone's mind."
+  },
+  {
+    "level": "B1",
+    "category": "School",
+    "prompt": "A formal talk given to an audience.",
+    "answer": "presentation",
+    "options": [
+      "presentation",
+      "conversation",
+      "celebration",
+      "registration"
+    ],
+    "hint": "Students often use slides for this."
+  },
+  {
+    "level": "B1",
+    "category": "Personality",
+    "prompt": "Able to be trusted to do what is expected.",
+    "answer": "reliable",
+    "options": [
+      "reliable",
+      "sensitive",
+      "curious",
+      "generous"
+    ],
+    "hint": "This person keeps promises and arrives on time."
+  },
+  {
+    "level": "B1",
+    "category": "Environment",
+    "prompt": "Energy from sources that can naturally be replaced, such as sunlight or wind.",
+    "answer": "renewable",
+    "options": [
+      "renewable",
+      "recyclable",
+      "temporary",
+      "artificial"
+    ],
+    "hint": "Solar and wind energy are examples."
+  },
+  {
+    "level": "B1",
+    "category": "Actions",
+    "prompt": "To officially say that something will happen or give public information about it.",
+    "answer": "announce",
+    "options": [
+      "announce",
+      "admit",
+      "avoid",
+      "achieve"
+    ],
+    "hint": "Schools may do this before an event."
+  },
+  {
+    "level": "B1",
+    "category": "Problems",
+    "prompt": "A difficult task or situation that tests your ability.",
+    "answer": "challenge",
+    "options": [
+      "challenge",
+      "advantage",
+      "choice",
+      "result"
+    ],
+    "hint": "It can be difficult but also motivating."
+  },
+  {
+    "level": "B1",
+    "category": "Communication",
+    "prompt": "To give a short general description of the main points.",
+    "answer": "summarize",
+    "options": [
+      "summarize",
+      "translate",
+      "describe",
+      "predict"
+    ],
+    "hint": "You do not include every detail."
+  }
+];
+
+let currentLevel = null;
+let gameQuestions = [];
+let currentIndex = 0;
+let scoreA = 0;
+let scoreB = 0;
+let timerId = null;
+let timeLeft = 20;
+let answered = false;
+
+const el = {
+  modeScreen: document.getElementById("modeScreen"),
+  gameScreen: document.getElementById("gameScreen"),
+  levelDisplay: document.getElementById("levelDisplay"),
+  questionNumber: document.getElementById("questionNumber"),
+  categoryPill: document.getElementById("categoryPill"),
+  prompt: document.getElementById("prompt"),
+  options: document.getElementById("options"),
+  feedback: document.getElementById("feedback"),
+  hintBox: document.getElementById("hintBox"),
+  timerDisplay: document.getElementById("timerDisplay"),
+  timerSelect: document.getElementById("timerSelect")
+};
+
+function shuffle(array) {
+  const copy = [...array];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function startLevel(level) {
+  currentLevel = level;
+  gameQuestions = level === "Mixed"
+    ? shuffle(questions)
+    : shuffle(questions.filter(q => q.level === level));
+
+  currentIndex = 0;
+  scoreA = 0;
+  scoreB = 0;
+  updateScores();
+
+  el.modeScreen.style.display = "none";
+  el.gameScreen.style.display = "block";
+  el.levelDisplay.textContent = level;
+  loadQuestion();
+}
+
+function loadQuestion() {
+  stopTimer();
+  resetTimer();
+  answered = false;
+
+  const q = gameQuestions[currentIndex];
+  el.questionNumber.textContent = `${currentIndex + 1} / ${gameQuestions.length}`;
+  el.categoryPill.textContent = `${q.level} • ${q.category}`;
+  el.prompt.textContent = q.prompt;
+  el.feedback.textContent = "";
+  el.feedback.style.color = "";
+  el.hintBox.style.display = "none";
+  el.hintBox.textContent = "";
+  el.options.innerHTML = "";
+
+  shuffle(q.options).forEach(option => {
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.textContent = option;
+    btn.addEventListener("click", () => chooseAnswer(btn, option));
+    el.options.appendChild(btn);
+  });
+}
+
+function chooseAnswer(button, option) {
+  if (answered) return;
+  answered = true;
+
+  const q = gameQuestions[currentIndex];
+  const buttons = [...el.options.querySelectorAll(".option")];
+
+  buttons.forEach(btn => {
+    btn.disabled = true;
+    if (btn.textContent === q.answer) btn.classList.add("correct");
+  });
+
+  if (option === q.answer) {
+    button.classList.add("correct");
+    el.feedback.textContent = "✅ Correct! Award the winning team a point.";
+    el.feedback.style.color = "var(--green)";
+  } else {
+    button.classList.add("wrong");
+    el.feedback.textContent = `❌ Not quite. The answer is "${q.answer}".`;
+    el.feedback.style.color = "var(--red)";
+  }
+
+  stopTimer();
+}
+
+function showHint() {
+  const q = gameQuestions[currentIndex];
+  el.hintBox.textContent = "💡 " + q.hint;
+  el.hintBox.style.display = "block";
+}
+
+function nextQuestion() {
+  currentIndex++;
+  if (currentIndex >= gameQuestions.length) {
+    gameQuestions = shuffle(gameQuestions);
+    currentIndex = 0;
+  }
+  loadQuestion();
+}
+
+function restartLevel() {
+  gameQuestions = shuffle(gameQuestions);
+  currentIndex = 0;
+  scoreA = 0;
+  scoreB = 0;
+  updateScores();
+  loadQuestion();
+}
+
+function changeLevel() {
+  stopTimer();
+  el.gameScreen.style.display = "none";
+  el.modeScreen.style.display = "block";
+}
+
+function resetTimer() {
+  timeLeft = Number(el.timerSelect.value);
+  el.timerDisplay.textContent = timeLeft;
+  el.timerDisplay.classList.remove("timer-warning");
+}
+
+function startTimer() {
+  stopTimer();
+  if (timeLeft <= 0) resetTimer();
+
+  timerId = setInterval(() => {
+    timeLeft--;
+    el.timerDisplay.textContent = timeLeft;
+
+    if (timeLeft <= 5) el.timerDisplay.classList.add("timer-warning");
+
+    if (timeLeft <= 0) {
+      stopTimer();
+      el.timerDisplay.textContent = "0";
+      if (!answered) {
+        el.feedback.textContent = "⏰ Time's up!";
+        el.feedback.style.color = "var(--red)";
+      }
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerId) {
+    clearInterval(timerId);
+    timerId = null;
+  }
+  el.timerDisplay.classList.remove("timer-warning");
+}
+
+function updateScores() {
+  document.getElementById("scoreA").textContent = scoreA;
+  document.getElementById("scoreB").textContent = scoreB;
+  document.getElementById("teamAScoreLarge").textContent = `${scoreA} ${scoreA === 1 ? "point" : "points"}`;
+  document.getElementById("teamBScoreLarge").textContent = `${scoreB} ${scoreB === 1 ? "point" : "points"}`;
+}
+
+async function toggleFullscreen() {
+  try {
+    if (!document.fullscreenElement) {
+      await document.documentElement.requestFullscreen();
+    } else {
+      await document.exitFullscreen();
+    }
+  } catch (e) {
+    alert("Full-screen mode is not available in this browser.");
+  }
+}
+
+document.querySelectorAll(".mode-card").forEach(card => {
+  card.addEventListener("click", () => startLevel(card.dataset.level));
+});
+
+document.getElementById("hintBtn").addEventListener("click", showHint);
+document.getElementById("nextBtn").addEventListener("click", nextQuestion);
+document.getElementById("restartBtn").addEventListener("click", restartLevel);
+document.getElementById("changeLevelBtn").addEventListener("click", changeLevel);
+document.getElementById("startTimerBtn").addEventListener("click", startTimer);
+document.getElementById("pauseTimerBtn").addEventListener("click", stopTimer);
+document.getElementById("resetTimerBtn").addEventListener("click", () => { stopTimer(); resetTimer(); });
+document.getElementById("fullscreenBtn").addEventListener("click", toggleFullscreen);
+
+el.timerSelect.addEventListener("change", () => {
+  stopTimer();
+  resetTimer();
+});
+
+document.getElementById("teamAPlus").addEventListener("click", () => { scoreA++; updateScores(); });
+document.getElementById("teamAMinus").addEventListener("click", () => { scoreA = Math.max(0, scoreA - 1); updateScores(); });
+document.getElementById("teamBPlus").addEventListener("click", () => { scoreB++; updateScores(); });
+document.getElementById("teamBMinus").addEventListener("click", () => { scoreB = Math.max(0, scoreB - 1); updateScores(); });
+
+document.addEventListener("fullscreenchange", () => {
+  document.getElementById("fullscreenBtn").textContent =
+    document.fullscreenElement ? "Exit Full Screen" : "Full Screen";
+});
+
+updateScores();
+resetTimer();
+</script>
+</body>
+</html>
