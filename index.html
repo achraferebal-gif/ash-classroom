@@ -11,10 +11,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-    .card-link {
-  text-decoration: none;
-  color: inherit;
-}
+    }
 
     body {
       font-family: Arial, sans-serif;
@@ -90,6 +87,12 @@
       gap: 25px;
     }
 
+    .card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
     .card {
       background: white;
       padding: 30px 20px;
@@ -98,6 +101,7 @@
       box-shadow: 0 5px 20px rgba(0,0,0,0.08);
       transition: 0.3s;
       cursor: pointer;
+      height: 100%;
     }
 
     .card:hover {
@@ -160,11 +164,13 @@
 
   <header>
     <h1>🎓 Ash's Classroom</h1>
+
     <p>
       Fun English games, speaking activities, grammar practice,
       vocabulary challenges and IELTS resources.
     </p>
   </header>
+
 
   <nav>
     <a href="#games">Games</a>
@@ -174,7 +180,10 @@
     <a href="#ielts">IELTS</a>
   </nav>
 
+
   <main>
+
+    <!-- CLASSROOM GAMES -->
 
     <section class="container" id="games">
 
@@ -183,32 +192,86 @@
         <p>Interactive games for practicing English in class.</p>
       </div>
 
+
       <div class="cards">
 
-     <a href="arrange-sentence.html" class="card-link">
-  <div class="card">
-    <div class="icon">🧩</div>
-    <h3>Arrange the Sentence</h3>
-    <p>Put the words in the correct order to make a sentence.</p>
-  </div>
-</a>
+        <!-- ARRANGE THE SENTENCE -->
+
+        <a href="arrange-sentence.html" class="card-link">
+
+          <div class="card">
+
+            <div class="icon">
+              🧩
+            </div>
+
+            <h3>
+              Arrange the Sentence
+            </h3>
+
+            <p>
+              Put the words in the correct order to make a sentence.
+            </p>
+
+          </div>
+
+        </a>
+
+
+        <!-- EMOJI CHALLENGE -->
 
         <div class="card">
-          <div class="icon">😀</div>
-          <h3>Emoji Challenge</h3>
-          <p>Guess the English word using emojis and clues.</p>
+
+          <div class="icon">
+            😀
+          </div>
+
+          <h3>
+            Emoji Challenge
+          </h3>
+
+          <p>
+            Guess the English word using emojis and clues.
+          </p>
+
         </div>
 
-        <div class="card">
-          <div class="icon">⚡</div>
-          <h3>Vocabulary Race</h3>
-          <p>Compete with classmates and find the correct vocabulary.</p>
-        </div>
+
+        <!-- VOCABULARY RACE -->
 
         <div class="card">
-          <div class="icon">🎯</div>
-          <h3>Category Challenge</h3>
-          <p>Think quickly and write a word that nobody else chooses.</p>
+
+          <div class="icon">
+            ⚡
+          </div>
+
+          <h3>
+            Vocabulary Race
+          </h3>
+
+          <p>
+            Compete with classmates and find the correct vocabulary.
+          </p>
+
+        </div>
+
+
+        <!-- CATEGORY CHALLENGE -->
+
+        <div class="card">
+
+          <div class="icon">
+            🎯
+          </div>
+
+          <h3>
+            Category Challenge
+          </h3>
+
+          <p>
+            Think quickly and write a word that nobody else chooses.
+          </p>
+
         </div>
 
       </div>
@@ -216,49 +279,118 @@
     </section>
 
 
+    <!-- ENGLISH PRACTICE -->
+
     <section class="games-section">
 
       <div class="container">
 
         <div class="section-title">
-          <h2>📚 English Practice</h2>
-          <p>Choose the skill you want to practice.</p>
+
+          <h2>
+            📚 English Practice
+          </h2>
+
+          <p>
+            Choose the skill you want to practice.
+          </p>
+
         </div>
+
 
         <div class="cards">
 
+
+          <!-- SPEAKING -->
+
           <div class="card" id="speaking">
-            <div class="icon">🗣️</div>
-            <h3>Speaking</h3>
-            <p>Questions, interviews, discussions and speaking challenges.</p>
+
+            <div class="icon">
+              🗣️
+            </div>
+
+            <h3>
+              Speaking
+            </h3>
+
+            <p>
+              Questions, interviews, discussions and speaking challenges.
+            </p>
+
           </div>
+
+
+          <!-- GRAMMAR -->
 
           <div class="card" id="grammar">
-            <div class="icon">✏️</div>
-            <h3>Grammar</h3>
-            <p>Practice English grammar with simple interactive activities.</p>
+
+            <div class="icon">
+              ✏️
+            </div>
+
+            <h3>
+              Grammar
+            </h3>
+
+            <p>
+              Practice English grammar with simple interactive activities.
+            </p>
+
           </div>
+
+
+          <!-- VOCABULARY -->
 
           <div class="card" id="vocabulary">
-            <div class="icon">🧠</div>
-            <h3>Vocabulary</h3>
-            <p>Learn and review useful English words.</p>
+
+            <div class="icon">
+              🧠
+            </div>
+
+            <h3>
+              Vocabulary
+            </h3>
+
+            <p>
+              Learn and review useful English words.
+            </p>
+
           </div>
 
+
+          <!-- IELTS -->
+
           <div class="card" id="ielts">
-            <div class="icon">🎓</div>
-            <h3>IELTS</h3>
-            <p>Speaking practice, vocabulary and IELTS preparation.</p>
+
+            <div class="icon">
+              🎓
+            </div>
+
+            <h3>
+              IELTS
+            </h3>
+
+            <p>
+              Speaking practice, vocabulary and IELTS preparation.
+            </p>
+
           </div>
 
         </div>
 
+
         <div class="coming-soon">
-          <h3>🚀 More activities coming soon</h3>
+
+          <h3>
+            🚀 More activities coming soon
+          </h3>
+
           <p>
             New games and classroom activities will be added regularly.
           </p>
+
         </div>
+
 
       </div>
 
@@ -266,9 +398,15 @@
 
   </main>
 
+
   <footer>
-    <p>© 2026 Ash's Classroom | Learn • Play • Practice</p>
+
+    <p>
+      © 2026 Ash's Classroom | Learn • Play • Practice
+    </p>
+
   </footer>
+
 
 </body>
 </html>
