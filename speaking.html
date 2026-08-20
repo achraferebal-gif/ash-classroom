@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Speaking Hub | Ash's Classroom</title>
+<style>
+:root{--bg:#f4f7fb;--panel:#fff;--text:#1f2937;--muted:#6b7280;--primary:#4f46e5;--primary2:#7c3aed;--green:#16a34a;--orange:#f59e0b;--red:#dc2626;--border:#e5e7eb;--shadow:0 14px 35px rgba(31,41,55,.12)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;color:var(--text);min-height:100vh;background:linear-gradient(135deg,#eef2ff,#f5f3ff)}
+.page{width:min(1180px,calc(100% - 28px));margin:auto;padding:24px 0 40px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}
+.title-wrap{display:flex;align-items:center;gap:14px}
+.logo{width:58px;height:58px;border-radius:18px;background:linear-gradient(135deg,var(--primary),var(--primary2));display:grid;place-items:center;color:white;font-size:30px;box-shadow:var(--shadow)}
+h1{margin:0;font-size:clamp(1.8rem,4vw,2.8rem)}
+.subtitle{margin:6px 0 0;color:var(--muted)}
+.btn{border:1px solid var(--border);background:white;color:var(--text);padding:11px 16px;border-radius:12px;font-weight:800;cursor:pointer}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn-green{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-orange{background:#fff7e7;color:#9a5a00;border-color:#f1ca87}
+.home-link{text-decoration:none}
+.mode-screen{background:white;border:1px solid var(--border);border-radius:24px;padding:30px;box-shadow:var(--shadow)}
+.mode-title{text-align:center;margin-bottom:24px}
+.mode-title h2{font-size:2rem;margin:0 0 8px}
+.mode-title p{margin:0;color:var(--muted)}
+.mode-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.mode-card{border:2px solid var(--border);background:linear-gradient(180deg,#fff,#fafaff);border-radius:20px;padding:25px 16px;text-align:center;cursor:pointer;transition:.2s}
+.mode-card:hover{transform:translateY(-5px);border-color:#b8bdfd;box-shadow:0 10px 28px rgba(79,70,229,.12)}
+.mode-icon{font-size:3rem}
+.mode-card h3{margin:10px 0 6px}
+.mode-card p{color:var(--muted);font-size:.92rem;min-height:42px}
+.activity-screen{display:none}
+.panel{background:white;border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow);padding:24px}
+.controls{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.levels{display:flex;gap:8px;flex-wrap:wrap}
+.question-box{background:linear-gradient(180deg,#fafbff,#f2f5ff);border:1px solid #dce2ff;border-radius:18px;padding:28px;text-align:center;min-height:310px;display:flex;flex-direction:column;justify-content:center}
+.label{display:inline-block;align-self:center;background:#e9edff;color:#4c51bf;border:1px solid #cfd5ff;border-radius:999px;padding:7px 12px;font-weight:900;font-size:.84rem;margin-bottom:18px}
+.question{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:950;line-height:1.35}
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+.choice{background:white;border:2px solid #cfd5ff;border-radius:18px;padding:22px;font-size:clamp(1.25rem,3vw,2rem);font-weight:900}
+.followup{margin-top:16px;padding:14px;border-radius:14px;background:#fff7e7;border:1px solid #f2cf8e;color:#8a5705;font-weight:800;display:none}
+.timer{font-size:4.5rem;font-weight:950;color:var(--primary);margin-top:16px}
+.timer.warning{color:var(--red)}
+.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.footer{text-align:center;color:var(--muted);font-size:.84rem;margin-top:20px}
+@media(max-width:900px){.mode-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.topbar{flex-direction:column;align-items:flex-start}.mode-grid{grid-template-columns:1fr}.choice-grid{grid-template-columns:1fr}.question-box{padding:18px}}
+</style>
+</head>
+<body>
+<main class="page">
+<header class="topbar">
+<div class="title-wrap"><div class="logo">🗣️</div><div><h1>Speaking Hub</h1><p class="subtitle">Fast classroom speaking activities for A1–B1 learners.</p></div></div>
+<div style="display:flex;gap:10px"><a href="index.html" class="btn home-link">← Home</a><button id="fullscreenBtn" class="btn">Full Screen</button></div>
+</header>
+
+<section id="modeScreen" class="mode-screen">
+<div class="mode-title"><h2>Choose a Speaking Activity</h2><p>Pick one and start speaking immediately.</p></div>
+<div class="mode-grid">
+<button class="mode-card" data-mode="conversation"><div class="mode-icon">💬</div><h3>Conversation Questions</h3><p>Random questions by A1, A2, or B1 level.</p></button>
+<button class="mode-card" data-mode="speed"><div class="mode-icon">⏱️</div><h3>Speed Speaking</h3><p>Answer a random question before the timer ends.</p></button>
+<button class="mode-card" data-mode="would"><div class="mode-icon">🤔</div><h3>Would You Rather?</h3><p>Choose one option and explain your reason.</p></button>
+<button class="mode-card" data-mode="followup"><div class="mode-icon">📣</div><h3>Follow-up Challenge</h3><p>Answer, then respond to a surprise follow-up question.</p></button>
+</div>
+</section>
+
+<section id="activityScreen" class="activity-screen">
+<div class="panel">
+<div class="controls">
+<div class="levels" id="levelControls">
+<button class="btn btn-primary level-btn" data-level="A1">A1</button>
+<button class="btn level-btn" data-level="A2">A2</button>
+<button class="btn level-btn" data-level="B1">B1</button>
+</div>
+<button id="changeModeBtn" class="btn">Change Activity</button>
+</div>
+
+<div class="question-box">
+<div id="activityLabel" class="label">💬 Conversation Question</div>
+<div id="questionText" class="question"></div>
+<div id="choiceGrid" class="choice-grid" style="display:none">
+<div id="choiceA" class="choice"></div>
+<div id="choiceB" class="choice"></div>
+</div>
+<div id="followupBox" class="followup"></div>
+<div id="timerDisplay" class="timer" style="display:none">30</div>
+</div>
+
+<div class="actions">
+<button id="startTimerBtn" class="btn btn-green" style="display:none">Start Timer</button>
+<button id="pauseTimerBtn" class="btn" style="display:none">Pause</button>
+<button id="followupBtn" class="btn btn-orange" style="display:none">Show Follow-up</button>
+<button id="nextBtn" class="btn btn-primary">Next</button>
+</div>
+</div>
+</section>
+
+<div class="footer">Ash's Classroom • Speaking Hub</div>
+</main>
+
+<script>
+const data={"conversation": {"A1": ["What is your favorite food?", "What time do you usually wake up?", "Who is your best friend?", "What do you do after school?", "What is your favorite subject?", "Do you like sports? Why?", "What is your favorite animal?", "What do you usually eat for breakfast?", "Where do you live?", "What do you do on Sundays?", "What is your favorite color?", "Can you cook? What can you cook?", "What is your favorite game?", "What do you do before bed?", "What is your favorite drink?"], "A2": ["What do you usually do in your free time?", "What is a place you would like to visit?", "What makes a good friend?", "What is your favorite way to relax?", "What was the last movie you watched?", "What do you usually do at the weekend?", "What is something you want to learn?", "What is your favorite school memory?", "Do you prefer studying alone or with friends? Why?", "What is one healthy habit you have?", "What is your favorite type of weather?", "What do you usually use your phone for?", "What job would you like to try in the future?", "What is something you are good at?", "What is one thing you want to improve in English?"], "B1": ["What skill would you most like to improve and why?", "Do you think students should have less homework? Why or why not?", "What makes a city a good place to live?", "How has technology changed the way people communicate?", "What is the best way to stay healthy?", "Would you rather live in the countryside or a big city? Why?", "What is an important quality in a teacher?", "How can people reduce stress in their daily lives?", "What is one problem young people often face?", "Should schools teach more practical life skills?", "What makes a holiday memorable?", "How important is it to learn another language?", "What is a good way to save money?", "What are the advantages of team sports?", "What is one change you would make to your school?"]}, "would": [["Travel by plane", "Travel by train"], ["Live near the beach", "Live in the mountains"], ["Have more free time", "Have more money"], ["Study in the morning", "Study at night"], ["Play football", "Play badminton"], ["Read a book", "Watch a movie"], ["Be very famous", "Be very rich"], ["Work from home", "Work in an office"], ["Visit the past", "Visit the future"], ["Speak every language", "Play every musical instrument"], ["Have no homework", "Have no exams"], ["Live without your phone", "Live without TV"], ["Cook every meal", "Eat at restaurants every day"], ["Travel alone", "Travel with friends"], ["Be the funniest person", "Be the smartest person"]], "followups": ["Why?", "Can you give an example?", "How often do you do that?", "Who do you usually do that with?", "When did you last do that?", "Would you like to do it more often?", "How does it make you feel?", "What is the best thing about it?", "What is the most difficult thing about it?", "Would you recommend it to a friend?"]};
+let mode=null,level="A1",lastIndex=-1,timerId=null,timeLeft=30;
+
+const modeScreen=document.getElementById("modeScreen");
+const activityScreen=document.getElementById("activityScreen");
+const questionText=document.getElementById("questionText");
+const choiceGrid=document.getElementById("choiceGrid");
+const choiceA=document.getElementById("choiceA");
+const choiceB=document.getElementById("choiceB");
+const activityLabel=document.getElementById("activityLabel");
+const followupBox=document.getElementById("followupBox");
+const timerDisplay=document.getElementById("timerDisplay");
+const startTimerBtn=document.getElementById("startTimerBtn");
+const pauseTimerBtn=document.getElementById("pauseTimerBtn");
+const followupBtn=document.getElementById("followupBtn");
+const levelControls=document.getElementById("levelControls");
+
+function randIndex(arr){let i=Math.floor(Math.random()*arr.length);if(arr.length>1&&i===lastIndex)i=(i+1)%arr.length;lastIndex=i;return i}
+
+function setMode(newMode){
+  mode=newMode;
+  modeScreen.style.display="none";
+  activityScreen.style.display="block";
+  followupBox.style.display="none";
+  stopTimer();
+
+  const needsLevel = mode!=="would";
+  levelControls.style.display=needsLevel?"flex":"none";
+
+  startTimerBtn.style.display=mode==="speed"?"inline-block":"none";
+  pauseTimerBtn.style.display=mode==="speed"?"inline-block":"none";
+  timerDisplay.style.display=mode==="speed"?"block":"none";
+  followupBtn.style.display=mode==="followup"?"inline-block":"none";
+
+  if(mode==="conversation") activityLabel.textContent="💬 Conversation Question";
+  if(mode==="speed") activityLabel.textContent="⏱️ Speed Speaking";
+  if(mode==="would") activityLabel.textContent="🤔 Would You Rather?";
+  if(mode==="followup") activityLabel.textContent="📣 Follow-up Challenge";
+
+  loadQuestion();
+}
+
+function loadQuestion(){
+  stopTimer();
+  followupBox.style.display="none";
+  if(mode==="speed"){timeLeft=30;timerDisplay.textContent=timeLeft;timerDisplay.classList.remove("warning")}
+
+  if(mode==="would"){
+    const item=data.would[randIndex(data.would)];
+    questionText.textContent="Which would you choose?";
+    choiceGrid.style.display="grid";
+    choiceA.textContent=item[0];
+    choiceB.textContent=item[1];
+  } else {
+    choiceGrid.style.display="none";
+    const arr=data.conversation[level];
+    questionText.textContent=arr[randIndex(arr)];
+  }
+}
+
+function showFollowup(){
+  const arr=data.followups;
+  followupBox.textContent="Follow-up: "+arr[Math.floor(Math.random()*arr.length)];
+  followupBox.style.display="block";
+}
+
+function startTimer(){
+  stopTimer();
+  timerId=setInterval(()=>{
+    timeLeft--;
+    timerDisplay.textContent=timeLeft;
+    if(timeLeft<=5)timerDisplay.classList.add("warning");
+    if(timeLeft<=0){stopTimer();timerDisplay.textContent="0"}
+  },1000);
+}
+function stopTimer(){if(timerId){clearInterval(timerId);timerId=null}}
+
+document.querySelectorAll(".mode-card").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.mode)));
+document.querySelectorAll(".level-btn").forEach(b=>b.addEventListener("click",()=>{
+  level=b.dataset.level;
+  document.querySelectorAll(".level-btn").forEach(x=>x.classList.remove("btn-primary"));
+  b.classList.add("btn-primary");
+  lastIndex=-1;
+  loadQuestion();
+}));
+document.getElementById("nextBtn").addEventListener("click",loadQuestion);
+followupBtn.addEventListener("click",showFollowup);
+startTimerBtn.addEventListener("click",startTimer);
+pauseTimerBtn.addEventListener("click",stopTimer);
+document.getElementById("changeModeBtn").addEventListener("click",()=>{stopTimer();activityScreen.style.display="none";modeScreen.style.display="block"});
+document.getElementById("fullscreenBtn").addEventListener("click",async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch{}});
+document.addEventListener("fullscreenchange",()=>{document.getElementById("fullscreenBtn").textContent=document.fullscreenElement?"Exit Full Screen":"Full Screen"});
+</script>
+</body>
+</html>
