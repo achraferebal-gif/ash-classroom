@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>IELTS Speaking Hub | Ash's Classroom</title>
+<style>
+:root{--text:#1f2937;--muted:#6b7280;--primary:#4f46e5;--primary2:#7c3aed;--green:#16a34a;--red:#dc2626;--orange:#f59e0b;--border:#e5e7eb;--shadow:0 14px 35px rgba(31,41,55,.12)}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:var(--text);background:linear-gradient(135deg,#eef2ff,#f5f3ff);min-height:100vh}
+.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:24px 0 40px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}.title-wrap{display:flex;align-items:center;gap:14px}.logo{width:58px;height:58px;border-radius:18px;background:linear-gradient(135deg,var(--primary),var(--primary2));display:grid;place-items:center;color:white;font-size:30px;box-shadow:var(--shadow)}h1{margin:0;font-size:clamp(1.8rem,4vw,2.8rem)}.subtitle{margin:6px 0 0;color:var(--muted)}
+.btn{border:1px solid var(--border);background:white;color:var(--text);padding:11px 16px;border-radius:12px;font-weight:800;cursor:pointer}.btn:hover{transform:translateY(-1px)}.btn-primary{background:var(--primary);color:white;border-color:var(--primary)}.btn-green{background:var(--green);color:white;border-color:var(--green)}.btn-orange{background:#fff7e7;color:#8a5705;border-color:#f2cf8e}.home-link{text-decoration:none}
+.panel{background:white;border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow)}.hub{padding:30px}.hub-title{text-align:center;margin-bottom:24px}.hub-title h2{font-size:2rem;margin:0 0 8px}.hub-title p{margin:0;color:var(--muted)}
+.mode-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.mode-card{border:2px solid var(--border);background:linear-gradient(180deg,#fff,#fafaff);border-radius:18px;padding:24px 15px;text-align:center;cursor:pointer;transition:.2s}.mode-card:hover{transform:translateY(-4px);border-color:#b8bdfd}.mode-icon{font-size:2.8rem}.mode-card h3{margin:10px 0 6px}.mode-card p{margin:0;color:var(--muted);font-size:.88rem}
+.premium{margin-top:24px;background:#fff7e7;border:1px solid #f2cf8e;border-radius:16px;padding:16px}.premium strong{color:#8a5705}
+.screen{display:none}.screen.active{display:block}.content{padding:22px}.content-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}.content-head h2{margin:0}.small{color:var(--muted);font-size:.9rem}
+.topic-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.topic-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.question-box{background:linear-gradient(180deg,#fafbff,#f2f5ff);border:1px solid #dce2ff;border-radius:18px;padding:26px;text-align:center;min-height:280px;display:flex;flex-direction:column;justify-content:center}.question{font-size:clamp(1.5rem,3vw,2.25rem);font-weight:950;line-height:1.35}.framework{margin:18px auto 0;max-width:760px;background:#eef2ff;border:1px solid #cfd5ff;border-radius:14px;padding:12px;color:#4c51bf;font-weight:800}
+.timer{font-size:4.5rem;font-weight:950;color:var(--primary);margin-top:18px}.timer.warn{color:var(--red)}.actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:16px}
+.cue-card{background:#fff;border:2px solid #dce2ff;border-radius:20px;padding:24px;text-align:left;max-width:760px;margin:auto}.cue-card h3{font-size:1.6rem;margin:0 0 14px}.cue-card ul{line-height:1.8}.plan-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}.plan-item{background:#eef2ff;border:1px solid #cfd5ff;border-radius:12px;padding:12px;text-align:center;font-weight:850;color:#4c51bf}.model{display:none;margin-top:16px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:14px;padding:15px;text-align:left;line-height:1.6;color:#065f46}
+.band-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.band-card{border:1px solid var(--border);border-radius:16px;padding:16px}.band-card h3{margin:0 0 8px;color:var(--primary)}.band-card p{margin:0;color:#4b5563;line-height:1.5}
+.checklist{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}.check{background:#f8f9ff;border:1px solid var(--border);border-radius:14px;padding:14px;text-align:left}.check strong{display:block;margin-bottom:4px}.footer{text-align:center;color:var(--muted);font-size:.84rem;margin-top:20px}
+@media(max-width:950px){.mode-grid,.band-grid{grid-template-columns:repeat(2,1fr)}.plan-grid,.checklist{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.topbar{flex-direction:column;align-items:flex-start}.mode-grid,.band-grid,.plan-grid,.checklist{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="page">
+<header class="topbar"><div class="title-wrap"><div class="logo">🎓</div><div><h1>IELTS Speaking Hub</h1><p class="subtitle">Practise Parts 1, 2 and 3 with structure, timing and model support.</p></div></div><div style="display:flex;gap:10px"><a href="index.html" class="btn home-link">← Home</a><button id="fullscreenBtn" class="btn">Full Screen</button></div></header>
+
+<section id="hubScreen" class="panel hub">
+<div class="hub-title"><h2>Choose an IELTS Speaking Activity</h2><p>Use these tools for individual practice, pair work, or teacher-led speaking lessons.</p></div>
+<div class="mode-grid">
+<button class="mode-card" data-screen="part1Screen"><div class="mode-icon">💬</div><h3>Part 1</h3><p>Short personal questions by topic with answer structure and timer.</p></button>
+<button class="mode-card" data-screen="part2Screen"><div class="mode-icon">🗂️</div><h3>Part 2 Cue Cards</h3><p>1-minute planning, 2-minute speaking and model answers.</p></button>
+<button class="mode-card" data-screen="part3Screen"><div class="mode-icon">🧠</div><h3>Part 3</h3><p>Discussion questions with ARE answer development.</p></button>
+<button class="mode-card" data-screen="bandScreen"><div class="mode-icon">📈</div><h3>Band Guidance</h3><p>Simple explanations of fluency, vocabulary, grammar and pronunciation.</p></button>
+</div>
+<div class="premium"><strong>Future premium area:</strong> full mock speaking tests, larger topic banks, printable cue-card packs, teacher assessment sheets, and downloadable lesson bundles.</div>
+</section>
+
+<section id="part1Screen" class="screen panel content">
+<div class="content-head"><div><h2>IELTS Speaking Part 1</h2><div class="small">Answer naturally in about 2–4 sentences.</div></div><button class="btn backHub">← IELTS Hub</button></div>
+<div id="p1Topics" class="topic-buttons"></div>
+<div class="question-box"><div id="p1Question" class="question"></div><div class="framework">Answer → Reason → Example</div><div id="p1Timer" class="timer">30</div></div>
+<div class="actions"><button id="p1Start" class="btn btn-green">Start 30s</button><button id="p1Pause" class="btn">Pause</button><button id="p1Next" class="btn btn-primary">Next Question</button></div>
+</section>
+
+<section id="part2Screen" class="screen panel content">
+<div class="content-head"><div><h2>IELTS Speaking Part 2</h2><div class="small">1 minute to prepare, then speak for up to 2 minutes.</div></div><button class="btn backHub">← IELTS Hub</button></div>
+<div class="cue-card"><h3 id="p2Title"></h3><div>You should say:</div><ul id="p2Bullets"></ul><div id="planGrid" class="plan-grid"></div><div id="p2Model" class="model"></div></div>
+<div id="p2Timer" class="timer" style="text-align:center">60</div>
+<div class="actions"><button id="prepBtn" class="btn btn-orange">Start 1-Minute Prep</button><button id="speakBtn" class="btn btn-green">Start 2-Minute Speaking</button><button id="pauseP2" class="btn">Pause</button><button id="modelBtn" class="btn">Show Model</button><button id="nextP2" class="btn btn-primary">Next Cue Card</button></div>
+</section>
+
+<section id="part3Screen" class="screen panel content">
+<div class="content-head"><div><h2>IELTS Speaking Part 3</h2><div class="small">Develop ideas clearly. Aim for 4–6 sentences.</div></div><button class="btn backHub">← IELTS Hub</button></div>
+<div id="p3Topics" class="topic-buttons"></div>
+<div class="question-box"><div id="p3Question" class="question"></div><div class="framework">ARE: Answer → Reason → Example &nbsp; | &nbsp; Stronger answer: add Contrast or Result</div><div id="p3Timer" class="timer">60</div></div>
+<div class="actions"><button id="p3Start" class="btn btn-green">Start 60s</button><button id="p3Pause" class="btn">Pause</button><button id="p3Next" class="btn btn-primary">Next Question</button></div>
+</section>
+
+<section id="bandScreen" class="screen panel content">
+<div class="content-head"><div><h2>Speaking Band Guidance</h2><div class="small">A simple classroom guide — not an official IELTS score calculator.</div></div><button class="btn backHub">← IELTS Hub</button></div>
+<div id="bandGrid" class="band-grid"></div>
+<div class="checklist">
+<div class="check"><strong>Fluency</strong>Can you keep speaking without long pauses or too much repetition?</div>
+<div class="check"><strong>Vocabulary</strong>Can you use enough precise words instead of repeating basic vocabulary?</div>
+<div class="check"><strong>Grammar</strong>Can you use both simple and complex sentences with reasonable accuracy?</div>
+<div class="check"><strong>Pronunciation</strong>Can listeners understand you easily, with clear sounds, stress and intonation?</div>
+</div>
+</section>
+
+<div class="footer">Ash's Classroom • IELTS Speaking Hub</div>
+</main>
+
+<script>
+const data={"part1": {"Home & Hometown": ["Where is your hometown?", "What do you like most about your hometown?", "Has your hometown changed much in recent years?", "Would you like to live there in the future?", "What kind of home do you live in?"], "Study & Work": ["Do you work or are you a student?", "What do you like about your studies or work?", "What is the most difficult part of your studies or work?", "What skills would you like to improve?", "Would you like to change your job or subject in the future?"], "Leisure": ["What do you usually do in your free time?", "Do you prefer indoor or outdoor activities?", "How often do you spend time with friends?", "What hobby would you like to try?", "Do you think people have enough free time nowadays?"], "Technology": ["How often do you use your phone?", "What do you mainly use the internet for?", "Do you prefer learning from books or online?", "What piece of technology is most useful to you?", "Do you think people depend too much on technology?"], "Travel": ["Do you like travelling?", "What kind of places do you enjoy visiting?", "Do you prefer travelling alone or with others?", "What was your most memorable trip?", "Is there a country you would like to visit?"]}, "part2": [{"title": "Describe a person you admire", "bullets": ["who this person is", "how you know this person", "what qualities this person has", "and explain why you admire this person"], "plan": ["Who?", "How do you know them?", "Qualities", "Why you admire them"], "model": "I’d like to talk about a teacher I really admire. I met him when I was in secondary school. He was patient, supportive and very good at explaining difficult ideas. What I admired most was the way he encouraged students who lacked confidence. Because of him, I became more interested in English and more willing to speak in class."}, {"title": "Describe a memorable trip", "bullets": ["where you went", "who you went with", "what you did there", "and explain why the trip was memorable"], "plan": ["Place", "People", "Activities", "Why memorable"], "model": "One memorable trip I had was a weekend visit to Da Nang. I went there with a few friends. We visited the beach, tried local food and explored the city in the evening. The trip was memorable because it was relaxing and gave us a chance to spend time together away from work."}, {"title": "Describe a skill you would like to learn", "bullets": ["what the skill is", "why you want to learn it", "how you would learn it", "and explain how it could help you"], "plan": ["Skill", "Reason", "How to learn", "Benefit"], "model": "A skill I would like to learn is public speaking. I want to become more confident when speaking in front of groups. I would probably practise by joining speaking clubs and recording myself. This skill could help me professionally because clear communication is important in many jobs."}, {"title": "Describe a useful website or app", "bullets": ["what it is", "how often you use it", "what you use it for", "and explain why it is useful"], "plan": ["Name", "Frequency", "Use", "Why useful"], "model": "A website I find very useful is an online dictionary. I use it almost every day when I prepare lessons or learn new vocabulary. It helps me check meanings, pronunciation and example sentences. I find it useful because it saves time and gives more accurate information than guessing from context."}, {"title": "Describe a place where you like to relax", "bullets": ["where it is", "when you go there", "what you do there", "and explain why you find it relaxing"], "plan": ["Place", "When", "What you do", "Why relaxing"], "model": "A place where I like to relax is a quiet café near my home. I usually go there in the afternoon when I have free time. I order a drink, listen to music and sometimes read. I find it relaxing because the atmosphere is calm and I can take a break from a busy day."}, {"title": "Describe a sport or activity you enjoy", "bullets": ["what it is", "how often you do it", "who you do it with", "and explain why you enjoy it"], "plan": ["Activity", "Frequency", "People", "Reason"], "model": "One activity I enjoy is playing badminton. I usually play once or twice a week with friends. It is enjoyable because it is competitive but also social. It also helps me stay active and improve my stamina."}, {"title": "Describe a book or film you enjoyed", "bullets": ["what it was", "when you saw or read it", "what it was about", "and explain why you enjoyed it"], "plan": ["Title", "When", "Story/topic", "Why you liked it"], "model": "I’d like to talk about a film I watched recently. It was a mystery story about a group of people trying to solve a difficult problem. I enjoyed it because the story was unpredictable and the characters were interesting. It also kept me focused until the end."}, {"title": "Describe an important decision you made", "bullets": ["what the decision was", "when you made it", "why you made it", "and explain what happened afterwards"], "plan": ["Decision", "When", "Reason", "Result"], "model": "An important decision I made was to focus more seriously on improving my English. I made this decision after realizing that stronger English could give me more opportunities. I started practising regularly and using English more often. As a result, I became more confident and independent."}], "part3": {"Education": ["What makes a good teacher?", "Do students learn better through technology?", "Should schools focus more on practical skills?", "How has education changed in the last twenty years?", "What are the advantages of studying in groups?"], "Technology": ["How has technology changed communication?", "What are the disadvantages of spending too much time online?", "Should children have limits on screen time?", "Will technology replace some jobs in the future?", "How can technology improve education?"], "Work": ["Why do some people change careers?", "What qualities make someone a good employee?", "Is salary the most important factor when choosing a job?", "How might workplaces change in the future?", "Should people work fewer hours?"], "Environment": ["What environmental problems are common in cities?", "What can individuals do to protect the environment?", "Should governments make public transport cheaper?", "Why is recycling difficult in some places?", "Do young people care more about the environment than older people?"], "Travel & Tourism": ["What are the benefits of tourism?", "What problems can tourism create?", "Why do people enjoy travelling abroad?", "Should tourists learn about local culture before visiting?", "How might tourism change in the future?"]}, "frameworks": {"Part 1": "Answer + Reason + Example. Keep answers natural and around 2–4 sentences.", "Part 2": "Use a simple 4-note plan. Speak for 1–2 minutes. Organize ideas instead of memorizing a script.", "Part 3": "Use ARE: Answer → Reason → Example. For stronger answers, add Contrast or Result."}, "bands": [{"range": "4.0–5.0", "desc": "Answers may be short, repetitive or unclear. Grammar and vocabulary are limited."}, {"range": "5.5–6.0", "desc": "Can communicate ideas clearly, but development and accuracy may be inconsistent."}, {"range": "6.5–7.0", "desc": "Develops answers well, uses a wider range of vocabulary and grammar, and speaks with generally good fluency."}, {"range": "7.5+", "desc": "Speaks flexibly and naturally with precise vocabulary, strong organization and fewer noticeable errors."}]};
+const $=id=>document.getElementById(id);
+let p1Topic=Object.keys(data.part1)[0],p1Index=0,p3Topic=Object.keys(data.part3)[0],p3Index=0,p2Index=0,timerId=null,timeLeft=30;
+function showScreen(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$("hubScreen").style.display="none";$(id).classList.add("active")}
+function backHub(){stopTimer();document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$("hubScreen").style.display="block"}
+document.querySelectorAll(".mode-card").forEach(b=>b.addEventListener("click",()=>showScreen(b.dataset.screen)));
+document.querySelectorAll(".backHub").forEach(b=>b.addEventListener("click",backHub));
+
+function makeTopicButtons(containerId,obj,handler,activeName){const c=$(containerId);c.innerHTML="";Object.keys(obj).forEach(name=>{const b=document.createElement("button");b.className="btn topic-btn"+(name===activeName?" active":"");b.textContent=name;b.addEventListener("click",()=>handler(name));c.appendChild(b)})}
+function setP1Topic(name){p1Topic=name;p1Index=0;makeTopicButtons("p1Topics",data.part1,setP1Topic,p1Topic);loadP1()}
+function loadP1(){const arr=data.part1[p1Topic];$("p1Question").textContent=arr[p1Index];resetTimer("p1Timer",30)}
+function nextP1(){p1Index=(p1Index+1)%data.part1[p1Topic].length;loadP1()}
+function setP3Topic(name){p3Topic=name;p3Index=0;makeTopicButtons("p3Topics",data.part3,setP3Topic,p3Topic);loadP3()}
+function loadP3(){const arr=data.part3[p3Topic];$("p3Question").textContent=arr[p3Index];resetTimer("p3Timer",60)}
+function nextP3(){p3Index=(p3Index+1)%data.part3[p3Topic].length;loadP3()}
+
+function loadP2(){const item=data.part2[p2Index];$("p2Title").textContent=item.title;$("p2Bullets").innerHTML="";item.bullets.forEach(x=>{const li=document.createElement("li");li.textContent=x;$("p2Bullets").appendChild(li)});$("planGrid").innerHTML="";item.plan.forEach(x=>{const d=document.createElement("div");d.className="plan-item";d.textContent=x;$("planGrid").appendChild(d)});$("p2Model").textContent=item.model;$("p2Model").style.display="none";resetTimer("p2Timer",60)}
+function nextP2(){p2Index=(p2Index+1)%data.part2.length;loadP2()}
+
+function stopTimer(){if(timerId){clearInterval(timerId);timerId=null}}
+function resetTimer(id,secs){stopTimer();timeLeft=secs;$(id).textContent=secs;$(id).classList.remove("warn")}
+function startTimer(id,secs){stopTimer();timeLeft=secs;$(id).textContent=timeLeft;$(id).classList.remove("warn");timerId=setInterval(()=>{timeLeft--;$(id).textContent=timeLeft;if(timeLeft<=10)$(id).classList.add("warn");if(timeLeft<=0)stopTimer()},1000)}
+
+$("p1Start").addEventListener("click",()=>startTimer("p1Timer",30));$("p1Pause").addEventListener("click",stopTimer);$("p1Next").addEventListener("click",nextP1);
+$("p3Start").addEventListener("click",()=>startTimer("p3Timer",60));$("p3Pause").addEventListener("click",stopTimer);$("p3Next").addEventListener("click",nextP3);
+$("prepBtn").addEventListener("click",()=>startTimer("p2Timer",60));$("speakBtn").addEventListener("click",()=>startTimer("p2Timer",120));$("pauseP2").addEventListener("click",stopTimer);$("modelBtn").addEventListener("click",()=>{$("p2Model").style.display=$("p2Model").style.display==="block"?"none":"block"});$("nextP2").addEventListener("click",nextP2);
+
+$("bandGrid").innerHTML="";data.bands.forEach(x=>{const d=document.createElement("article");d.className="band-card";d.innerHTML=`<h3>Band ${x.range}</h3><p>${x.desc}</p>`;$("bandGrid").appendChild(d)});
+makeTopicButtons("p1Topics",data.part1,setP1Topic,p1Topic);makeTopicButtons("p3Topics",data.part3,setP3Topic,p3Topic);loadP1();loadP2();loadP3();
+
+$("fullscreenBtn").addEventListener("click",async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch{}});
+document.addEventListener("fullscreenchange",()=>{$("fullscreenBtn").textContent=document.fullscreenElement?"Exit Full Screen":"Full Screen"});
+</script>
+</body></html>
