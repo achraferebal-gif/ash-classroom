@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | Ash's Classroom</title>
+<meta name="description" content="Contact Ash's Classroom for feedback, teaching resource ideas and collaboration enquiries.">
+<style>
+:root{
+  --primary:#4f46e5;--secondary:#7c3aed;--text:#1f2937;--muted:#6b7280;
+  --bg:#f6f7fb;--surface:#fff;--border:#e5e7eb;--soft:#eef2ff;
+  --shadow:0 14px 35px rgba(31,41,55,.10)
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid var(--border)}
+.nav-inner{max-width:900px;margin:auto;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:900;color:var(--primary)}
+.nav-links{display:flex;gap:18px}
+.hero{background:linear-gradient(135deg,#4338ca,#7c3aed);color:white;padding:68px 20px}
+.hero-inner{max-width:900px;margin:auto}
+.hero h1{font-size:clamp(2.5rem,6vw,4.4rem);margin:0 0 14px}
+.hero p{margin:0;color:#ede9fe;max-width:700px;font-size:1.08rem}
+.container{max-width:900px;margin:auto;padding:52px 20px}
+.card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:28px;box-shadow:var(--shadow)}
+.card h2{margin-top:0}
+.card p{color:#4b5563}
+.contact-option{border-top:1px solid var(--border);padding:18px 0}
+.contact-option:first-of-type{margin-top:10px}
+.label{font-size:.78rem;text-transform:uppercase;font-weight:900;color:var(--muted);letter-spacing:.04em}
+.placeholder{margin-top:6px;background:var(--soft);border:1px solid #cfd5ff;border-radius:10px;padding:12px;color:#4338ca;font-weight:700}
+.note{margin-top:24px;background:#fff7e7;border:1px solid #f2cf8e;border-radius:14px;padding:16px;color:#7a5717}
+footer{background:#111827;color:#cbd5e1;text-align:center;padding:28px}
+@media(max-width:650px){.nav-inner{align-items:flex-start;gap:12px;flex-direction:column}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="brand">🎓 Ash's Classroom</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <h1>Contact</h1>
+    <p>Have feedback, a classroom idea or a resource request? This page will be the main contact point for Ash's Classroom.</p>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>Get in touch</h2>
+    <p>As the site grows, this page can be used for teacher feedback, collaboration enquiries, custom resource requests and support.</p>
+
+    <div class="contact-option">
+      <div class="label">Email</div>
+      <div class="placeholder">Add your public contact email here</div>
+    </div>
+
+    <div class="contact-option">
+      <div class="label">Teacher resource requests</div>
+      <div class="placeholder">A contact form can be added here later</div>
+    </div>
+
+    <div class="contact-option">
+      <div class="label">Collaboration</div>
+      <div class="placeholder">Schools, teachers and education partners can contact you here</div>
+    </div>
+
+    <div class="note">
+      For now, this page intentionally does not show a personal email address. Add a separate public/business email before publishing contact details.
+    </div>
+  </section>
+</main>
+
+<footer>© 2026 Ash's Classroom | Learn • Play • Practice</footer>
+</body>
+</html>
